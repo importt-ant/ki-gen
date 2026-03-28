@@ -2,7 +2,7 @@
 
 Define a :class:`Key` subclass to describe your parameter space, wrap it
 in a :class:`Blueprint` to control randomization, and hand it to a
-:class:`~keygen.recorders.Generator` to produce unique configurations::
+:meth:`~keygen.recorders.Generator` to produce unique configurations::
 
     from keygen import Key, Blueprint, Store
     from keygen.fields import Param, Enum
@@ -23,28 +23,22 @@ fields
     Field descriptors (:class:`~keygen.fields.Param`,
     :class:`~keygen.fields.Enum`, :class:`~keygen.fields.Pool`).
 recorders
-    :class:`~keygen.recorders.Recorder` for dedup/persistence and
+    :class:`~keygen.recorders.Recorder` for deduplication and
     :class:`~keygen.recorders.Generator` for the full generation loop.
 rengines
     Pluggable RNG backends (:class:`~keygen.rengines.RandomRengine`,
     :class:`~keygen.rengines.SobolRengine`).
 """
 
+from . import fields, recorders, rengines
 from .blueprint import Blueprint
 from .key import Key
 from .store import Store
 
-from . import fields
-from . import recorders
-from . import rengines
-
 __all__ = [
-    # modules
     "fields",
     "recorders",
     "rengines",
-
-    # classes
     "Blueprint",
     "Key",
     "Store",

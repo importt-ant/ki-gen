@@ -1,13 +1,13 @@
-"""Recording, deduplication, and generation machinery."""
+from __future__ import annotations
 
-from .recorder import Recorder, SpaceExhaustedError
-from .generator import Generator
 
-__all__ = [
-    # classes
-    "Recorder",
-    "Generator",
-    
-    # errors
-    "SpaceExhaustedError",
-]
+class Recorder:
+    """Class for recording data."""
+
+    pass
+
+
+class Generator:
+    """Class for generating data."""
+
+    pass

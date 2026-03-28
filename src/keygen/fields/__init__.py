@@ -1,14 +1,25 @@
-"""Field descriptors for declaring validated Key attributes."""
+from __future__ import annotations
 
-from .field import Field
-from .param import Param
-from .enum import Enum
-from .pool import Pool
 
-__all__ = [
-    # classes
-    "Field",
-    "Param",
-    "Enum",
-    "Pool",
-]
+class Field:
+    """Field descriptor for defining a validated attribute."""
+
+    pass
+
+
+class Parameter:
+    """Parameter descriptor for defining a validated parameter."""
+
+    pass
+
+
+class Enum:
+    """Enum descriptor for defining a set of valid values."""
+
+    pass
+
+
+class Pool:
+    """Pool descriptor for managing a collection of validated attributes."""
+
+    pass

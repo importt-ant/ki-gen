@@ -1,15 +1,19 @@
-"""Pluggable RNG engines for key generation."""
+from __future__ import annotations
 
-from .protocol import FastForwardNotSupported, Rengine
-from .random import RandomRengine
-from .sobol import SobolRengine
 
-__all__ = [
-    # classes
-    "Rengine",
-    "RandomRengine",
-    "SobolRengine",
+class Rengine:
+    """Base class for random engine implementations."""
 
-    # errors
-    "FastForwardNotSupported",
-]
+    pass
+
+
+class RandomRengine(Rengine):
+    """Random number generator engine using a standard library."""
+
+    pass
+
+
+class SobolRengine(Rengine):
+    """Quasi-random number generator engine based on Sobol sequences."""
+
+    pass

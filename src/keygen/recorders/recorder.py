@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from keygen.key import Key
 
@@ -31,14 +31,14 @@ class Recorder:
 
     Parameters
     ----------
-    name:
-        Human-readable label used to build :attr:`gen_key`.  Required
+    name : str, optional
+        Human-readable label used to build :attr:`gen_key`. Required
         when instantiating ``Recorder`` directly; subclasses may
         override the :attr:`name` property instead.
-    store:
+    store : Store, optional
         :class:`Store` for persistence and dedup state.
         ``None`` gives an in-memory-only recorder.
-    flush_interval:
+    flush_interval : int, optional
         Number of :meth:`record` calls between automatic flushes.
     """
 
@@ -91,7 +91,13 @@ class Recorder:
     # ── store bootstrap (private) ─────────────────────────────────
 
     def _attach(self, store: Store) -> None:
-        """Restore state from *store* if a prior session exists."""
+        """Restore state from *store* if a prior session exists.
+
+        Parameters
+        ----------
+        store : Store
+            The store from which to restore the state.
+        """
         existing = store.load_generator_by_key(self.gen_key)
         if existing is not None:
             self._cursor = existing["cursor"]
@@ -101,11 +107,16 @@ class Recorder:
 
         self._seen = store.load_seen_fingerprints(self.gen_key)
 
-    def _on_resume(self, state: dict) -> None:
+    def _on_resume(self, state: dict[str, Any]) -> None:
         """Hook called when resuming from a stored session.
 
-        *state* is the full generator row dict.  Override to replay
+        *state* is the full generator row dict. Override to replay
         or fast-forward RNG state, etc.
+
+        Parameters
+        ----------
+        state : dict
+            The state dictionary containing the generator's previous state.
         """
 
     # ── persistence ──────────────────────────────────────────────────
@@ -121,6 +132,7 @@ class Recorder:
         self._dirty = 0
 
     def _flush_state(self) -> None:
+        """Save the current state of the generator to the store."""
         if self._store is None:
             return
         self._store.save_generator_by_key(
@@ -129,19 +141,37 @@ class Recorder:
         )
 
     def _maybe_flush(self) -> None:
+        """Flush the pending keys if the dirty count exceeds the flush interval."""
         if self._dirty >= self._flush_interval:
             self.flush()
 
     # ── deduplication (private) ───────────────────────────────────
 
     def _is_duplicate(self, fingerprint: str) -> bool:
+        """Check if the given fingerprint is a duplicate.
+
+        Parameters
+        ----------
+        fingerprint : str
+            The fingerprint to check for duplication.
+
+        Returns
+        -------
+        bool
+            ``True`` if the fingerprint is a duplicate, ``False`` otherwise.
+        """
         return fingerprint in self._seen
 
     def _on_space_exhausted(self, consecutive_skips: int) -> None:
         """Called when dedup hits too many skips in a row.
 
-        Default raises :class:`SpaceExhaustedError`.  Override to
+        Default raises :class:`SpaceExhaustedError`. Override to
         retire the generator gracefully instead.
+
+        Parameters
+        ----------
+        consecutive_skips : int
+            The number of consecutive duplicate skips encountered.
         """
         raise SpaceExhaustedError(
             f"{self.gen_key}: {consecutive_skips} consecutive duplicates — "
@@ -155,7 +185,7 @@ class Recorder:
 
         Parameters
         ----------
-        key:
+        key : Key
             The :class:`Key` instance to record.
 
         Returns
@@ -167,7 +197,19 @@ class Recorder:
         return self._record(key)
 
     def _record(self, key: Key) -> bool:
-        """Internal recording — dedup check, seen-set, batched write."""
+        """Internal recording — dedup check, seen-set, batched write.
+
+        Parameters
+        ----------
+        key : Key
+            The :class:`Key` instance to record.
+
+        Returns
+        -------
+        bool
+            ``True`` if the key was new and accepted, ``False`` if it
+            was a duplicate.
+        """
         fp = key.fingerprint()
         if self._is_duplicate(fp):
             return False

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -38,8 +38,8 @@ class Store:
 
     Parameters
     ----------
-    db_path:
-        Path to the SQLite database file.  Created automatically.
+    db_path : str or Path
+        Path to the SQLite database file. Created automatically.
     """
 
     def __init__(self, db_path: str | Path = _DEFAULT_DB) -> None:
@@ -52,7 +52,7 @@ class Store:
     # ── generator state ───────────────────────────────────────────────
 
     def load_generator_by_key(self, gen_key: str) -> dict | None:
-        """Return the stored row for a generator, or ``None``."""
+        """Return the stored row for a generator, or None."""
         row = self._conn.execute(
             "SELECT * FROM generators WHERE gen_key = ?", (gen_key,)
         ).fetchone()
@@ -69,8 +69,18 @@ class Store:
         cursor: int = 0,
         state_extra: dict | None = None,
     ) -> None:
-        """Insert or update a generator row."""
-        now = datetime.now(timezone.utc).isoformat()
+        """Insert or update a generator row.
+
+        Parameters
+        ----------
+        gen_key : str
+            Unique key for the generator.
+        cursor : int, optional
+            Cursor position for the generator. Defaults to 0.
+        state_extra : dict, optional
+            Additional state information for the generator.
+        """
+        now = datetime.now(UTC).isoformat()
         extra_json = json.dumps(state_extra or {})
 
         self._conn.execute(
@@ -89,9 +99,7 @@ class Store:
 
     def list_generators(self) -> list[dict]:
         """Return all registered generators."""
-        rows = self._conn.execute(
-            "SELECT * FROM generators ORDER BY gen_key"
-        ).fetchall()
+        rows = self._conn.execute("SELECT * FROM generators ORDER BY gen_key").fetchall()
         result = []
         for r in rows:
             d = dict(r)
@@ -102,32 +110,55 @@ class Store:
     # ── key history ───────────────────────────────────────────────────
 
     def record_run(self, key: Key, gen_key: str) -> None:
-        """Record a single generated key."""
-        now = datetime.now(timezone.utc).isoformat()
+        """Record a single generated key.
+
+        Parameters
+        ----------
+        key : Key
+            The generated key to record.
+        gen_key : str
+            The key of the generator that produced the key.
+        """
+        now = datetime.now(UTC).isoformat()
         self._conn.execute(
-            "INSERT OR IGNORE INTO runs (key_id, gen_key, params, created_at) "
-            "VALUES (?, ?, ?, ?)",
+            "INSERT OR IGNORE INTO runs (key_id, gen_key, params, created_at) VALUES (?, ?, ?, ?)",
             (key.id, gen_key, json.dumps(key.to_dict(), default=str), now),
         )
         self._conn.commit()
 
     def record_runs(self, keys: list[Key], gen_key: str) -> None:
-        """Record multiple keys in a single transaction."""
-        now = datetime.now(timezone.utc).isoformat()
+        """Record multiple keys in a single transaction.
+
+        Parameters
+        ----------
+        keys : list[Key]
+            List of generated keys to record.
+        gen_key : str
+            The key of the generator that produced the keys.
+        """
+        now = datetime.now(UTC).isoformat()
         rows = []
         for key in keys:
-            rows.append(
-                (key.id, gen_key, json.dumps(key.to_dict(), default=str), now)
-            )
+            rows.append((key.id, gen_key, json.dumps(key.to_dict(), default=str), now))
         self._conn.executemany(
-            "INSERT OR IGNORE INTO runs (key_id, gen_key, params, created_at) "
-            "VALUES (?, ?, ?, ?)",
+            "INSERT OR IGNORE INTO runs (key_id, gen_key, params, created_at) VALUES (?, ?, ?, ?)",
             rows,
         )
         self._conn.commit()
 
     def run_count(self, gen_key: str | None = None) -> int:
-        """Total recorded runs, optionally filtered by gen_key."""
+        """Total recorded runs, optionally filtered by gen_key.
+
+        Parameters
+        ----------
+        gen_key : str, optional
+            The key of the generator to filter runs by.
+
+        Returns
+        -------
+        int
+            The total number of recorded runs.
+        """
         if gen_key is not None:
             row = self._conn.execute(
                 "SELECT COUNT(*) FROM runs WHERE gen_key = ?", (gen_key,)
@@ -137,16 +168,38 @@ class Store:
         return row[0]
 
     def get_run(self, key_id: str) -> dict | None:
-        """Look up a single run by key ID."""
-        row = self._conn.execute(
-            "SELECT * FROM runs WHERE key_id = ?", (key_id,)
-        ).fetchone()
+        """Look up a single run by key ID.
+
+        Parameters
+        ----------
+        key_id : str
+            The ID of the key to look up.
+
+        Returns
+        -------
+        dict or None
+            The run data as a dictionary, or None if not found.
+        """
+        row = self._conn.execute("SELECT * FROM runs WHERE key_id = ?", (key_id,)).fetchone()
         if row is None:
             return None
         return self._run_to_dict(row)
 
     def recent_runs(self, n: int = 20, gen_key: str | None = None) -> list[dict]:
-        """Return the *n* most recent runs."""
+        """Return the n most recent runs.
+
+        Parameters
+        ----------
+        n : int, optional
+            The number of recent runs to return. Defaults to 20.
+        gen_key : str, optional
+            The key of the generator to filter runs by.
+
+        Returns
+        -------
+        list[dict]
+            A list of the most recent runs as dictionaries.
+        """
         if gen_key is not None:
             rows = self._conn.execute(
                 "SELECT * FROM runs WHERE gen_key = ? ORDER BY created_at DESC LIMIT ?",
@@ -159,16 +212,25 @@ class Store:
         return [self._run_to_dict(r) for r in rows]
 
     def all_params(self, gen_key: str | None = None) -> list[dict]:
-        """Return all stored param dicts, for similarity comparisons."""
+        """Return all stored param dicts, for similarity comparisons.
+
+        Parameters
+        ----------
+        gen_key : str, optional
+            The key of the generator to filter runs by.
+
+        Returns
+        -------
+        list[dict]
+            A list of parameter dictionaries for the stored runs.
+        """
         if gen_key is not None:
             rows = self._conn.execute(
                 "SELECT key_id, gen_key, params FROM runs WHERE gen_key = ?",
                 (gen_key,),
             ).fetchall()
         else:
-            rows = self._conn.execute(
-                "SELECT key_id, gen_key, params FROM runs"
-            ).fetchall()
+            rows = self._conn.execute("SELECT key_id, gen_key, params FROM runs").fetchall()
         return [
             {
                 "key_id": r["key_id"],
@@ -179,17 +241,24 @@ class Store:
         ]
 
     def load_seen_fingerprints(self, gen_key: str) -> set[str]:
-        """Return the set of canonical param-fingerprints for *gen_key*.
+        """Return the set of canonical param-fingerprints for gen_key.
 
-        Used by generators to initialise their dedup seen-set on resume.
+        This is used by generators to initialise their dedup seen-set on resume.
+
+        Parameters
+        ----------
+        gen_key : str
+            The key of the generator to load fingerprints for.
+
+        Returns
+        -------
+        set[str]
+            A set of canonical parameter fingerprints.
         """
         rows = self._conn.execute(
             "SELECT params FROM runs WHERE gen_key = ?", (gen_key,)
         ).fetchall()
-        return {
-            json.dumps(json.loads(r["params"]), sort_keys=True)
-            for r in rows
-        }
+        return {json.dumps(json.loads(r["params"]), sort_keys=True) for r in rows}
 
     # ── housekeeping ──────────────────────────────────────────────────
 
@@ -207,7 +276,18 @@ class Store:
 
     @staticmethod
     def _run_to_dict(row: sqlite3.Row) -> dict:
-        """Convert a ``runs`` row to a plain dict, deserializing params."""
+        """Convert a runs row to a plain dict, deserializing params.
+
+        Parameters
+        ----------
+        row : sqlite3.Row
+            The row from the runs table to convert.
+
+        Returns
+        -------
+        dict
+            The converted row as a dictionary.
+        """
         d = dict(row)
         d["params"] = json.loads(d["params"])
         return d

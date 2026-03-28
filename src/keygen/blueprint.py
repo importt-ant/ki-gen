@@ -11,7 +11,7 @@ from keygen.key import Key
 class Blueprint:
     """Describes how each field of a Key subclass should be randomized.
 
-    Starts with the Key's own field specs as defaults.  Use
+    Starts with the Key's own field specs as defaults. Use
     :meth:`configure` to narrow bounds, restrict choices, or pin
     a field to a constant::
 
@@ -26,7 +26,7 @@ class Blueprint:
 
     Parameters
     ----------
-    key_type:
+    key_type : type[Key]
         The :class:`Key` subclass whose fields will be randomized.
     """
 
@@ -41,16 +41,16 @@ class Blueprint:
 
         Parameters
         ----------
-        field_name:
+        field_name : str
             Name of a field declared on the Key subclass.
-        spec:
+        spec : Field | Any
             A :class:`Field` descriptor (e.g. ``Param(min=1000, max=2000)``)
             to override randomization bounds, or a plain value to pin
             the field to a static constant.
 
         Returns
         -------
-        self
+        Blueprint
             For method chaining.
 
         Raises
@@ -59,9 +59,7 @@ class Blueprint:
             If *field_name* does not exist on the Key subclass.
         """
         if field_name not in self._key_type.field_specs():
-            raise ValueError(
-                f"{self._key_type.__name__} has no field {field_name!r}"
-            )
+            raise ValueError(f"{self._key_type.__name__} has no field {field_name!r}")
         self._overrides[field_name] = spec
         return self
 
@@ -85,7 +83,7 @@ class Blueprint:
 
         Parameters
         ----------
-        field_name:
+        field_name : str
             Name of a field declared on the Key subclass.
 
         Raises
@@ -97,9 +95,7 @@ class Blueprint:
             return self._overrides[field_name]
         specs = self._key_type.field_specs()
         if field_name not in specs:
-            raise ValueError(
-                f"{self._key_type.__name__} has no field {field_name!r}"
-            )
+            raise ValueError(f"{self._key_type.__name__} has no field {field_name!r}")
         return specs[field_name]
 
     # ── building ─────────────────────────────────────────────────────
@@ -109,11 +105,11 @@ class Blueprint:
 
         Parameters
         ----------
-        rng:
+        rng : Any
             Any object satisfying the :class:`Rengine` protocol
             (``randint``, ``uniform``, ``choice``, etc.).
 
-        Static overrides (plain values) are used as-is.  Field
+        Static overrides (plain values) are used as-is. Field
         overrides and default specs are dispatched to
         :meth:`_randomize_field`.
 
@@ -123,15 +119,15 @@ class Blueprint:
             The constructed key with all fields populated.
         """
         values: dict[str, Any] = {}
-        for fname, spec in self._key_type.field_specs().items():
-            override = self._overrides.get(fname)
+        for field_name, spec in self._key_type.field_specs().items():
+            override = self._overrides.get(field_name)
             if override is not None:
                 if isinstance(override, Field):
-                    values[fname] = self._randomize_field(fname, override, rng)
+                    values[field_name] = self._randomize_field(field_name, override, rng)
                 else:
-                    values[fname] = override
+                    values[field_name] = override
             else:
-                values[fname] = self._randomize_field(fname, spec, rng)
+                values[field_name] = self._randomize_field(field_name, spec, rng)
         return self._key_type(**values)
 
     @staticmethod
@@ -164,17 +160,12 @@ class Blueprint:
             if isinstance(spec.min, int) and isinstance(spec.max, int):
                 return rng.randint(spec.min, spec.max)
             return rng.uniform(float(spec.min), float(spec.max))
-        raise TypeError(
-            f"{name}: field type {type(spec).__name__} "
-            f"cannot be auto-randomized"
-        )
+        raise TypeError(f"{name}: field type {type(spec).__name__} cannot be auto-randomized")
 
     # ── repr ─────────────────────────────────────────────────────────
 
     def __repr__(self) -> str:
-        overrides = ", ".join(
-            f"{k}={v!r}" for k, v in self._overrides.items()
-        )
+        overrides = ", ".join(f"{k}={v!r}" for k, v in self._overrides.items())
         if overrides:
             return f"Blueprint({self._key_type.__name__}, {overrides})"
         return f"Blueprint({self._key_type.__name__})"

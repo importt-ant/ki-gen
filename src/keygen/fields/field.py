@@ -9,7 +9,7 @@ from typing import Any
 class Field:
     """Base descriptor for :class:`~keygen.Key` fields.
 
-    Subclass this to create custom field types.  Implement
+    Subclass this to create custom field types. Implement
     :meth:`validate` to raise :exc:`ValueError` on bad input.
     Validation runs automatically on every assignment to a Key
     instance.
@@ -17,7 +17,7 @@ class Field:
     Example::
 
         class MidiNote(Field):
-            def validate(self, value):
+            def validate(self, value: Any) -> None:
                 if not isinstance(value, int) or not (0 <= value <= 127):
                     raise ValueError(f"{self._attr}: expected MIDI note 0–127, got {value!r}")
     """
@@ -37,10 +37,18 @@ class Field:
     def __get__(self, obj: Any, objtype: type | None = None) -> Any:
         """Return the field spec (class access) or the stored value (instance access)."""
         if obj is None:
-            return self  # class access → field spec
+            return self  # Class access returns the field spec
         return obj._values.get(self._attr)
 
     def __set__(self, obj: Any, value: Any) -> None:
-        """Validate and store *value* on the Key instance."""
+        """Validate and store *value* on the Key instance.
+
+        Parameters
+        ----------
+        obj : Any
+            The Key instance to which the value is being assigned.
+        value : Any
+            The value to be validated and stored.
+        """
         self.validate(value)
         obj._values[self._attr] = value

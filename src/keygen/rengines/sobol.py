@@ -21,22 +21,24 @@ class SobolRengine:
 
     Parameters
     ----------
-    seed:
+    seed : int, optional
         Seed forwarded to the underlying Sobol engine.
-    dimensions:
+    dimensions : int
         Number of Sobol dimensions per point (should be >= the number
         of draws per ``_randomize`` call).
     """
 
     def __init__(self, seed: int | None = None, dimensions: int = 32) -> None:
-        from scipy.stats.qmc import Sobol  # lazy — optional dep
+        from scipy.stats.qmc import (
+            Sobol,  # Importing Sobol from scipy.stats.qmc as an optional dependency
+        )
 
         self._seed = seed
         self._dimensions = dimensions
         self._engine = Sobol(d=dimensions, seed=seed)
         self._point: list[float] = []
         self._dim_idx: int = 0
-        self._advance()  # prime the first point
+        self._advance()  # Priming the first point
 
     @property
     def seed(self) -> int | None:
@@ -64,11 +66,11 @@ class SobolRengine:
         return u
 
     def randint(self, a: int, b: int) -> int:
-        """Random integer in [a, b] inclusive."""
+        """Return a random integer in [a, b] inclusive."""
         return a + int(self._next_uniform() * (b - a + 1)) % (b - a + 1)
 
     def uniform(self, a: float, b: float) -> float:
-        """Random float in [a, b)."""
+        """Return a random float in [a, b)."""
         return a + self._next_uniform() * (b - a)
 
     def choice(self, seq: list[Any] | tuple[Any, ...]) -> Any:
@@ -77,7 +79,20 @@ class SobolRengine:
         return seq[idx]
 
     def sample(self, population: list[Any], k: int) -> list[Any]:
-        """Choose *k* unique elements (Fisher-Yates via Sobol draws)."""
+        """Choose *k* unique elements (Fisher-Yates via Sobol draws).
+
+        Parameters
+        ----------
+        population : list[Any]
+            The population to sample from.
+        k : int
+            The number of unique elements to choose.
+
+        Returns
+        -------
+        list[Any]
+            A list of *k* unique elements chosen from the population.
+        """
         pool = list(population)
         n = len(pool)
         result: list[Any] = []
