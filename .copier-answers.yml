@@ -1,15 +1,12 @@
-# Changes here will be overwritten by Copier; DO NOT EDIT.
-_commit: 0.1.0
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 1.8-1-g79f5989
 _src_path: /home/maximiliantodea/Github/github-infra
-author_email: demon.and.max@gmail.com
-author_name: Maximilian Todea
 description: Zero-dependency generic seeded generator framework with dedup and SQLite
-  persistence.
+    persistence.
 development_status: 5 - Production/Stable
-github_username: importt-ant
 min_python: '3.12'
 optional_extras:
-  sobol:
-  - scipy>=1.12
+    sobol:
+    - scipy>=1.12
 package_name: keygen
 project_name: keygen
