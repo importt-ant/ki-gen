@@ -1,0 +1,102 @@
+name: Release Review
+
+# Triggered by branches named release/MAJOR.MINOR.BUGFIX.
+#
+# Decision table:
+#   BUGFIX > 0  →  skip entirely (bugfix releases get no LLM pass)
+#   MINOR  > 0  →  comments + coding-practices
+#   MINOR == 0  →  all tasks (major release: docs + comments + coding-practices)
+#
+on:
+  push:
+    branches:
+      - "release/**"
+
+permissions:
+  contents: write
+  pull-requests: write
+  models: read
+
+jobs:
+  setup:
+    name: Parse branch → select tasks
+    runs-on: ubuntu-latest
+    outputs:
+      skip:         ${{ steps.parse.outputs.skip }}
+      release_type: ${{ steps.parse.outputs.release_type }}
+      fingerprints: ${{ steps.parse.outputs.fingerprints }}
+      version: ${{ steps.parse.outputs.version }}
+      release_branch: ${{ steps.parse.outputs.release_branch }}
+      groom_branch: ${{ steps.parse.outputs.groom_branch }}
+
+    steps:
+      - name: Parse semver from branch name
+        id: parse
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+          VERSION="${BRANCH#release/}"
+          MAJOR="$(echo "$VERSION" | cut -d. -f1)"
+          MINOR="$(echo "$VERSION" | cut -d. -f2)"
+          BUGFIX="$(echo "$VERSION" | cut -d. -f3)"
+          BUGFIX="${BUGFIX:-0}"   # default to 0 if omitted (e.g. release/1.0)
+          GROOM_BRANCH="groom/release-${VERSION}"
+
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "release_branch=${BRANCH}" >> "$GITHUB_OUTPUT"
+          echo "groom_branch=${GROOM_BRANCH}" >> "$GITHUB_OUTPUT"
+
+          echo "Branch  : $BRANCH"
+          echo "Version : $VERSION  (major=$MAJOR minor=$MINOR bugfix=$BUGFIX)"
+
+          if [ "$BUGFIX" != "0" ]; then
+            echo "skip=true"           >> "$GITHUB_OUTPUT"
+            echo "release_type=bugfix" >> "$GITHUB_OUTPUT"
+            echo "fingerprints="       >> "$GITHUB_OUTPUT"
+            echo "→ Bugfix release — skipping LLM tasks."
+
+          elif [ "$MINOR" != "0" ]; then
+            echo "skip=false"          >> "$GITHUB_OUTPUT"
+            echo "release_type=minor"  >> "$GITHUB_OUTPUT"
+            {
+              echo 'fingerprints<<EOF'
+              echo 'fingerprints/standardize-comments.md'
+              echo 'fingerprints/standardize-coding-practices.md'
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
+            echo "→ Minor release — running: comments + coding-practices."
+
+          else
+            echo "skip=false"          >> "$GITHUB_OUTPUT"
+            echo "release_type=major"  >> "$GITHUB_OUTPUT"
+            {
+              echo 'fingerprints<<EOF'
+              echo 'fingerprints/standardize-docstrings.md'
+              echo 'fingerprints/standardize-comments.md'
+              echo 'fingerprints/standardize-coding-practices.md'
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
+            echo "→ Major release — running: docstrings + comments + coding-practices."
+          fi
+
+  pytest:
+    name: Run pytest on release branch
+    needs: setup
+    uses: importt-ant/github-infra/.github/workflows/run-pytest.yml@main
+    with:
+      python-version: "3.12"
+      checkout-ref: ${{ needs.setup.outputs.release_branch }}
+    secrets: inherit
+
+  review:
+    name: Groom release (${{ needs.setup.outputs.release_type }})
+    needs: [setup, pytest]
+    if: needs.setup.outputs.skip == 'false'
+    uses: importt-ant/github-infra/.github/workflows/prepare-for-release.yml@main
+    with:
+      python-version: "3.12"
+      fingerprints: ${{ needs.setup.outputs.fingerprints }}
+      source-branch: ${{ needs.setup.outputs.release_branch }}
+      working-branch: ${{ needs.setup.outputs.groom_branch }}
+      pr-base-branch: ${{ needs.setup.outputs.release_branch }}
+      run-doc-generator: ${{ needs.setup.outputs.release_type == 'major' }}
+    secrets: inherit
