@@ -1,4 +1,4 @@
-# keygen
+# 🧬❗: keygen
 
 Generic seeded generator framework with dedup and SQLite persistence.
 
@@ -151,6 +151,6 @@ src/keygen/
     └── sobol.py           # SobolRengine (scipy)
 ```
 
-## License
+## API reference
 
-MIT
+See docs/index.md.
