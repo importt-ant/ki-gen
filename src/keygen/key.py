@@ -55,7 +55,7 @@ class Key:
         Parameters
         ----------
         **values:
-            Field names mapped to their values.  Every name must
+            Field names mapped to their values. Every name must
             correspond to a declared :class:`Field` on the class.
 
         Raises
@@ -69,28 +69,43 @@ class Key:
         missing = set(self._fields) - set(values)
         if missing:
             raise TypeError(
-                f"{type(self).__name__} missing required field(s): "
-                + ", ".join(sorted(missing))
+                f"{type(self).__name__} missing required field(s): " + ", ".join(sorted(missing))
             )
 
         for name, value in values.items():
             if name not in self._fields:
-                raise TypeError(
-                    f"{type(self).__name__} has no field {name!r}"
-                )
-            setattr(self, name, value)  # triggers validate via __set__
+                raise TypeError(f"{type(self).__name__} has no field {name!r}")
+            setattr(self, name, value)  # Triggers validation via __set__
 
     @classmethod
     def field_specs(cls) -> dict[str, Field]:
-        """Return all declared field specifications."""
+        """Return all declared field specifications.
+
+        Returns
+        -------
+        dict[str, Field]
+            A dictionary mapping field names to their specifications.
+        """
         return dict(cls._fields)
 
     def to_dict(self) -> dict[str, Any]:
-        """Field values as a plain dict."""
+        """Return field values as a plain dict.
+
+        Returns
+        -------
+        dict[str, Any]
+            A dictionary containing the field values.
+        """
         return dict(self._values)
 
     def fingerprint(self) -> str:
-        """Canonical string for deduplication."""
+        """Return a canonical string for deduplication.
+
+        Returns
+        -------
+        str
+            A JSON string representation of the field values.
+        """
         return json.dumps(self._values, sort_keys=True, default=str)
 
     def __repr__(self) -> str:
@@ -98,11 +113,29 @@ class Key:
         return f"{type(self).__name__}(id={self.id!r}, {vals})"
 
     def __eq__(self, other: object) -> bool:
-        """Two keys are equal when they share a type and identical field values."""
+        """Determine equality of two keys based on type and field values.
+
+        Parameters
+        ----------
+        other : object
+            The object to compare against.
+
+        Returns
+        -------
+        bool
+            True if the keys are of the same type and have identical field values,
+            False otherwise.
+        """
         if not isinstance(other, Key):
             return NotImplemented
         return type(self) is type(other) and self._values == other._values
 
     def __hash__(self) -> int:
-        """Hash based on the type and canonical field fingerprint."""
+        """Return a hash based on the type and canonical field fingerprint.
+
+        Returns
+        -------
+        int
+            The hash value.
+        """
         return hash((type(self).__qualname__, self.fingerprint()))

@@ -5,8 +5,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from keygen.blueprint import Blueprint
-from keygen.recorders.recorder import Recorder
 from keygen.key import Key
+from keygen.recorders.recorder import Recorder
 from keygen.rengines import FastForwardNotSupported, RandomRengine, Rengine
 
 if TYPE_CHECKING:
@@ -29,19 +29,19 @@ class Generator(Recorder):
 
     Parameters
     ----------
-    blueprint:
+    blueprint : Blueprint
         A :class:`Blueprint` that knows which Key subclass to build
         and how each field should be randomized or pinned.
-    seed:
+    seed : int, optional
         Seed forwarded to the default :class:`RandomRengine` when
         no explicit engine is given.  Ignored if *rengine* is set.
-    rengine:
+    rengine : Rengine, optional
         A pre-built :class:`Rengine`.  Takes priority over *seed*.
-    store:
+    store : Store, optional
         Optional :class:`Store` for persistence and dedup.
-    flush_interval:
+    flush_interval : int, optional
         Auto-flush cadence (inherited from :class:`Recorder`).
-    max_consecutive_skips:
+    max_consecutive_skips : int, optional
         Dedup skip limit before :meth:`_on_space_exhausted` fires.
     """
 
@@ -100,6 +100,13 @@ class Generator(Recorder):
     # ── resume ───────────────────────────────────────────────────────
 
     def _on_resume(self, state: dict) -> None:
+        """Resume the generator state from a saved state.
+
+        Parameters
+        ----------
+        state : dict
+            The saved state containing the cursor position.
+        """
         saved_cursor = state["cursor"]
         try:
             self._rengine.fast_forward(saved_cursor)
@@ -107,7 +114,13 @@ class Generator(Recorder):
             self._fast_forward_fallback(saved_cursor)
 
     def _fast_forward_fallback(self, steps: int) -> None:
-        """Replay ``_randomize`` calls to advance engines without O(1) skip."""
+        """Replay ``_randomize`` calls to advance engines without O(1) skip.
+
+        Parameters
+        ----------
+        steps : int
+            The number of steps to fast forward.
+        """
         for _ in range(steps):
             self._randomize()
         self._cursor = steps
@@ -149,7 +162,7 @@ class Generator(Recorder):
 
         Parameters
         ----------
-        n:
+        n : int
             Maximum number of keys to produce.
 
         Returns
