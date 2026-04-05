@@ -12,7 +12,16 @@ requires-python = ">=3.12"
 authors = [
     {name = "Maximilian Todea", email = "demon.and.max@gmail.com"},
 ]
-keywords = []
+keywords = [
+    "generator",
+    "parameter-generation",
+    "seeded",
+    "deduplication",
+    "sqlite",
+    "sobol",
+    "key-generation",
+    "randomization",
+]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
