@@ -1,18 +1,54 @@
+[build-system]
+requires = ["setuptools>=68.0", "setuptools-scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "keygen"
-version = "1.0.0"
-description = "Generic seeded generator framework with dedup and SQLite persistence."
+dynamic = ["version"]
+description = "Zero-dependency generic seeded generator framework with dedup and SQLite persistence."
 readme = "README.md"
+license = {text = "MIT"}
 requires-python = ">=3.12"
-license = "MIT"
+authors = [
+    {name = "Maximilian Todea", email = "demon.and.max@gmail.com"},
+]
+keywords = []
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
 dependencies = []
 
 [project.optional-dependencies]
 sobol = ["scipy>=1.12"]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.4",
+]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+[project.urls]
+Homepage = "https://github.com/importt-ant/keygen"
+Repository = "https://github.com/importt-ant/keygen"
+Issues = "https://github.com/importt-ant/keygen/issues"
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/keygen"]
+[tool.setuptools_scm]
+# version is read from git tags (e.g. v1.0 → 1.0)
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["keygen*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
