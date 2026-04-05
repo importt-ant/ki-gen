@@ -9,7 +9,6 @@ __all__ = [
     "Rengine",
     "RandomRengine",
     "SobolRengine",
-
     # errors
     "FastForwardNotSupported",
 ]
