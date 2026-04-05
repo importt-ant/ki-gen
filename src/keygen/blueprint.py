@@ -34,7 +34,7 @@ class Blueprint:
         self._key_type = key_type
         self._overrides: dict[str, Field | Any] = {}
 
-    # ── configuration ────────────────────────────────────────────────
+    # ── Configuration ────────────────────────────────────────────────
 
     def configure(self, field_name: str, spec: Field | Any) -> Blueprint:
         """Set how a field is produced.
@@ -65,7 +65,7 @@ class Blueprint:
         self._overrides[field_name] = spec
         return self
 
-    # ── introspection ────────────────────────────────────────────────
+    # ── Introspection ────────────────────────────────────────────────
 
     @property
     def key_type(self) -> type[Key]:
@@ -102,7 +102,7 @@ class Blueprint:
             )
         return specs[field_name]
 
-    # ── building ─────────────────────────────────────────────────────
+    # ── Building ─────────────────────────────────────────────────────
 
     def build(self, rng: Any) -> Key:
         """Produce a Key instance using *rng* for randomization.
@@ -113,7 +113,7 @@ class Blueprint:
             Any object satisfying the :class:`Rengine` protocol
             (``randint``, ``uniform``, ``choice``, etc.).
 
-        Static overrides (plain values) are used as-is.  Field
+        Static overrides (plain values) are used as-is; field
         overrides and default specs are dispatched to
         :meth:`_randomize_field`.
 
@@ -169,7 +169,7 @@ class Blueprint:
             f"cannot be auto-randomized"
         )
 
-    # ── repr ─────────────────────────────────────────────────────────
+    # ── Representation ───────────────────────────────────────────────
 
     def __repr__(self) -> str:
         overrides = ", ".join(

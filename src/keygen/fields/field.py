@@ -47,7 +47,7 @@ class Field:
             When *value* is not acceptable.
         """
 
-    # ── descriptor protocol ──────────────────────────────────────────
+    # ── Descriptor Protocol ──────────────────────────────────────────
 
     def __set_name__(self, owner: type, name: str) -> None:
         """Store the attribute name assigned on the owning class.

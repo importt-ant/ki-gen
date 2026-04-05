@@ -39,7 +39,6 @@ class Rengine(Protocol):
     def fast_forward(self, steps: int) -> None:
         """Skip ahead by *steps* generation cycles.
 
-        For engines that support O(1) skipping (e.g. Sobol).
-        Others can implement this as a no-op or a loop.
+        For engines that support O(1) skipping; others can implement this as a no-op or a loop.
         """
         ...

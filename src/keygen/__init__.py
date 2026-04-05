@@ -32,13 +32,13 @@ from .blueprint import Blueprint
 from .key import Key
 from .store import Store
 
-# fields
+# Fields
 from .fields import Enum, Field, Param, Pool
 
-# recorders
+# Recorders
 from .recorders import Generator, Recorder, SpaceExhaustedError
 
-# rengines
+# Rengines
 from .rengines import (
     FastForwardNotSupported,
     RandomRengine,
@@ -51,28 +51,28 @@ from . import recorders
 from . import rengines
 
 __all__ = [
-    # modules
+    # Modules
     "fields",
     "recorders",
     "rengines",
 
-    # core
+    # Core
     "Blueprint",
     "Key",
     "Store",
 
-    # fields
+    # Fields
     "Enum",
     "Field",
     "Param",
     "Pool",
 
-    # recorders
+    # Recorders
     "Generator",
     "Recorder",
     "SpaceExhaustedError",
 
-    # rengines
+    # Rengines
     "FastForwardNotSupported",
     "RandomRengine",
     "Rengine",
