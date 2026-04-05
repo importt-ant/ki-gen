@@ -105,9 +105,7 @@ class RandomRengine:
         FastForwardNotSupported
             When attempting to fast forward.
         """
-        raise FastForwardNotSupported(
-            "RandomRengine does not support O(1) fast-forward"
-        )
+        raise FastForwardNotSupported("RandomRengine does not support O(1) fast-forward")
 
     def __repr__(self) -> str:
         return f"RandomRengine(seed={self._seed})"

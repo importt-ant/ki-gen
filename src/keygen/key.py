@@ -69,15 +69,12 @@ class Key:
         missing = set(self._fields) - set(values)
         if missing:
             raise TypeError(
-                f"{type(self).__name__} missing required field(s): "
-                + ", ".join(sorted(missing))
+                f"{type(self).__name__} missing required field(s): " + ", ".join(sorted(missing))
             )
 
         for name, value in values.items():
             if name not in self._fields:
-                raise TypeError(
-                    f"{type(self).__name__} has no field {name!r}"
-                )
+                raise TypeError(f"{type(self).__name__} has no field {name!r}")
             setattr(self, name, value)  # Triggers validation via __set__
 
     @classmethod
