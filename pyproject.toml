@@ -3,7 +3,7 @@ requires = ["setuptools>=68.0", "setuptools-scm>=8.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "keygen"
+name = "atomic-keygen"
 dynamic = ["version"]
 description = "Zero-dependency generic seeded generator framework with dedup and SQLite persistence."
 readme = "README.md"
@@ -12,7 +12,7 @@ requires-python = ">=3.12"
 authors = [
     {name = "Maximilian Todea", email = "demon.and.max@gmail.com"},
 ]
-keywords = [
+keywords = [    
     "generator",
     "parameter-generation",
     "seeded",
@@ -21,7 +21,7 @@ keywords = [
     "sobol",
     "key-generation",
     "randomization",
-]
+    ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -41,9 +41,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/importt-ant/keygen"
-Repository = "https://github.com/importt-ant/keygen"
-Issues = "https://github.com/importt-ant/keygen/issues"
+Homepage = "https://github.com/importt-ant/atomic-keygen"
+Repository = "https://github.com/importt-ant/atomic-keygen"
+Issues = "https://github.com/importt-ant/atomic-keygen/issues"
 
 [tool.setuptools_scm]
 # version is read from git tags (e.g. v1.0 → 1.0)
