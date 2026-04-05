@@ -26,6 +26,8 @@ class RandomRengine:
         """The seed this engine was initialized with, or ``None``."""
         return self._seed
 
+    # ── Random number generation methods ──────
+
     def randint(self, a: int, b: int) -> int:
         """Return a random integer in ``[a, b]`` inclusive.
 
@@ -91,6 +93,8 @@ class RandomRengine:
             A list of *k* unique elements from the population.
         """
         return self._rng.sample(population, k)
+
+    # ── Fast forward method ──────
 
     def fast_forward(self, steps: int) -> None:
         """Not supported — raises :exc:`FastForwardNotSupported`.

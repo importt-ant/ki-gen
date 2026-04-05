@@ -104,7 +104,7 @@ class Recorder:
     def _on_resume(self, state: dict) -> None:
         """Hook called when resuming from a stored session.
 
-        *state* is the full generator row dict. Override to replay
+        *state* is the full generator row dict; override to replay
         or fast-forward RNG state, etc.
         """
 
@@ -143,7 +143,7 @@ class Recorder:
     def _on_space_exhausted(self, consecutive_skips: int) -> None:
         """Called when dedup hits too many skips in a row.
 
-        Default raises :class:`SpaceExhaustedError`. Override to
+        Default raises :class:`SpaceExhaustedError`; override to
         retire the generator gracefully instead.
         """
         raise SpaceExhaustedError(
@@ -174,7 +174,7 @@ class Recorder:
         Returns
         -------
         bool
-            ``True`` if the key was new and accepted, ``False`` if it
+            ``True`` if the key was new and accepted; ``False`` if it
             was a duplicate.
         """
         return self._record(key)

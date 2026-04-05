@@ -55,7 +55,7 @@ class Param(Field):
             )
         if self.step is not None and self.min is not None:
             offset = value - self.min
-            # Use round() to tolerate floating-point drift
+            # using round() to tolerate floating-point drift
             if round(offset / self.step) * self.step != round(offset, 12):
                 raise ValueError(
                     f"{self._attr}: {value!r} is not aligned to "

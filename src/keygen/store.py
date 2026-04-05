@@ -253,7 +253,7 @@ class Store:
     def load_seen_fingerprints(self, gen_key: str) -> set[str]:
         """Return the set of canonical param-fingerprints for *gen_key*.
 
-        Used by generators to initialise their dedup seen-set on resume.
+        This is used by generators to initialize their dedup seen-set on resume.
 
         Parameters
         ----------

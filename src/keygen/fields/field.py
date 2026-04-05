@@ -45,7 +45,7 @@ class Field:
     def __get__(self, obj: Any, objtype: type | None = None) -> Any:
         """Return the field spec (class access) or the stored value (instance access)."""
         if obj is None:
-            return self  # class access → field spec
+            return self  # class access; this returns the field spec
         return obj._values.get(self._attr)
 
     def __set__(self, obj: Any, value: Any) -> None:

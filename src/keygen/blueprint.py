@@ -11,7 +11,7 @@ from keygen.key import Key
 class Blueprint:
     """Describes how each field of a Key subclass should be randomized.
 
-    Starts with the Key's own field specs as defaults.  Use
+    Starts with the Key's own field specs as defaults; use
     :meth:`configure` to narrow bounds, restrict choices, or pin
     a field to a constant::
 
@@ -80,7 +80,7 @@ class Blueprint:
     def effective_spec(self, field_name: str) -> Field | Any:
         """Return the active spec for *field_name*.
 
-        Returns the override if one was set via :meth:`configure`,
+        Returns the override if one was set via :meth:`configure`;
         otherwise the default spec declared on the Key subclass.
 
         Parameters
@@ -113,7 +113,7 @@ class Blueprint:
             Any object satisfying the :class:`Rengine` protocol
             (``randint``, ``uniform``, ``choice``, etc.).
 
-        Static overrides (plain values) are used as-is.  Field
+        Static overrides (plain values) are used as-is; field
         overrides and default specs are dispatched to
         :meth:`_randomize_field`.
 
@@ -138,7 +138,7 @@ class Blueprint:
     def _randomize_field(name: str, spec: Field, rng: Any) -> Any:
         """Produce a single random value from *spec* using *rng*.
 
-        Dispatches on the field type: :class:`Enum` and :class:`Pool`
+        Dispatches on the field type; :class:`Enum` and :class:`Pool`
         use ``rng.choice``; :class:`Param` uses ``rng.randint`` or
         ``rng.uniform`` depending on the bound types.
 

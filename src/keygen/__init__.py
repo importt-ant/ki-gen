@@ -1,7 +1,7 @@
 """keygen -- seeded parameter generation with deduplication and persistence.
 
-Define a :class:`Key` subclass to describe your parameter space, wrap it
-in a :class:`Blueprint` to control randomization, and hand it to a
+Define a :class:`Key` subclass to describe your parameter space; wrap it
+in a :class:`Blueprint` to control randomization; and hand it to a
 :meth:`Generator` to produce unique configurations::
 
     from keygen import Key, Blueprint, Store, Param, Enum, Generator
@@ -32,13 +32,13 @@ from .blueprint import Blueprint
 from .key import Key
 from .store import Store
 
-# fields
+# ── fields ──────
 from .fields import Enum, Field, Param, Pool
 
-# recorders
+# ── recorders ──────
 from .recorders import Generator, Recorder, SpaceExhaustedError
 
-# rengines
+# ── rengines ──────
 from .rengines import (
     FastForwardNotSupported,
     RandomRengine,

@@ -1,11 +1,11 @@
-"""Pluggable RNG engines for key generation.
+"""Pluggable rng engines for key generation.
 
-Public API
+Public api
 ----------
 Rengine
     Base class for random engine implementations.
 RandomRengine
     Random number generator using a standard random engine.
 SobolRengine
-    Random number generator using Sobol sequences.
+    Random number generator using sobol sequences.
 """

@@ -29,7 +29,7 @@ class SobolRengine:
     """
 
     def __init__(self, seed: int | None = None, dimensions: int = 32) -> None:
-        from scipy.stats.qmc import Sobol  # lazy — optional dep
+        from scipy.stats.qmc import Sobol  # lazy loading for optional dependency
 
         self._seed = seed
         self._dimensions = dimensions

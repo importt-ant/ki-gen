@@ -1,9 +1,9 @@
 """Recording, deduplication, and generation machinery.
 
-Public API
+public API
 ----------
-Recorder
-    Class for recording data.
-Generator
-    Class for generating data.
+recorder
+    class for recording data.
+generator
+    class for generating data.
 """
