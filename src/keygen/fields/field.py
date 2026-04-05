@@ -20,7 +20,7 @@ class Field:
             def validate(self, value):
                 if not isinstance(value, int) or not (0 <= value <= 127):
                     raise ValueError(f"{self._attr}: expected MIDI note 0–127, got {value!r}")
-    
+
     Parameters
     ----------
     None

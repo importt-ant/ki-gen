@@ -46,13 +46,9 @@ class Param(Field):
     def validate(self, value: Any) -> None:
         """Raise :exc:`ValueError` if *value* violates the min/max/step constraints."""
         if self.min is not None and value < self.min:
-            raise ValueError(
-                f"{self._attr}: {value!r} is below minimum {self.min}"
-            )
+            raise ValueError(f"{self._attr}: {value!r} is below minimum {self.min}")
         if self.max is not None and value > self.max:
-            raise ValueError(
-                f"{self._attr}: {value!r} is above maximum {self.max}"
-            )
+            raise ValueError(f"{self._attr}: {value!r} is above maximum {self.max}")
         if self.step is not None and self.min is not None:
             offset = value - self.min
             # Use round() to handle floating-point precision issues
