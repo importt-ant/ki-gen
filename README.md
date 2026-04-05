@@ -75,13 +75,13 @@ bp = Blueprint(ToneKey).configure("pitch", Param(min=200, max=800))
 ```python
 from keygen import Recorder, Store
 
-store = Store("my.db")
-recorder = Recorder(name="api-ingest", store=store)
+with Store("my.db") as store:
+    recorder = Recorder(name="api-ingest", store=store)
 
-key = ToneKey(pitch=440, amplitude=0.8, osc="sine")
-is_new = recorder.record(key)   # True (first time)
-is_dup = recorder.record(key)   # False (duplicate)
-recorder.flush()
+    key = ToneKey(pitch=440, amplitude=0.8, osc="sine")
+    is_new = recorder.record(key)   # True (first time)
+    is_dup = recorder.record(key)   # False (duplicate)
+    recorder.flush()
 ```
 
 ### Generator
@@ -91,11 +91,10 @@ recorder.flush()
 ```python
 from keygen import Generator, Store
 
-store = Store("my.db")
-gen = Generator(bp, seed=42, store=store)
-
-keys = gen.generate_many(100)
-gen.flush()
+with Store("my.db") as store:
+    gen = Generator(bp, seed=42, store=store)
+    keys = gen.generate_many(100)
+    gen.flush()
 ```
 
 ### Rengine
@@ -143,10 +142,10 @@ src/keygen/
 │   ├── param.py          # Param (numeric min/max/step)
 │   ├── enum.py           # Enum (categorical, class-time)
 │   └── pool.py           # Pool (categorical, runtime-populated)
-├── generators/
-│   ├── generator.py      # Generator (generation loop)
-│   └── recorder.py       # Recorder (dedup + persistence)
-└── rengine/
+├── recorders/
+│   ├── recorder.py       # Recorder (dedup + persistence)
+│   └── generator.py      # Generator (generation loop)
+└── rengines/
     ├── protocol.py       # Rengine protocol + FastForwardNotSupported
     ├── random.py          # RandomRengine (stdlib)
     └── sobol.py           # SobolRengine (scipy)

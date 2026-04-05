@@ -41,11 +41,15 @@ class TestKeyConstruction:
         with pytest.raises(TypeError, match="has no field"):
             synth_patch_cls(pitch=440, velocity=100, attack=0.5, waveform="sine", bogus=42)
 
-    def test_empty_init(self, synth_patch_cls):
-        """All fields are None when not explicitly set."""
-        k = synth_patch_cls()
-        assert k.pitch is None
-        assert k.waveform is None
+    def test_missing_fields_raises_type_error(self, synth_patch_cls):
+        """Omitting required fields raises TypeError."""
+        with pytest.raises(TypeError, match="missing required field"):
+            synth_patch_cls()
+
+    def test_partial_fields_raises_type_error(self, synth_patch_cls):
+        """Providing only some fields raises TypeError."""
+        with pytest.raises(TypeError, match="missing required field"):
+            synth_patch_cls(pitch=440)
 
 
 # ═══════════════════════════════════════════════════════════════════════

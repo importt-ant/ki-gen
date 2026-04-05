@@ -2,11 +2,9 @@
 
 Define a :class:`Key` subclass to describe your parameter space, wrap it
 in a :class:`Blueprint` to control randomization, and hand it to a
-:class:`~keygen.recorders.Generator` to produce unique configurations::
+:class:`Generator` to produce unique configurations::
 
-    from keygen import Key, Blueprint, Store
-    from keygen.fields import Param, Enum
-    from keygen.recorders import Generator
+    from keygen import Key, Blueprint, Store, Param, Enum, Generator
 
     class SynthPatch(Key):
         pitch    = Param(min=20, max=20000)
@@ -20,19 +18,33 @@ in a :class:`Blueprint` to control randomization, and hand it to a
 Subpackages
 -----------
 fields
-    Field descriptors (:class:`~keygen.fields.Param`,
-    :class:`~keygen.fields.Enum`, :class:`~keygen.fields.Pool`).
+    Field descriptors (:class:`Param`, :class:`Enum`,
+    :class:`Pool`, :class:`Field`).
 recorders
-    :class:`~keygen.recorders.Recorder` for dedup/persistence and
-    :class:`~keygen.recorders.Generator` for the full generation loop.
+    :class:`Recorder` for dedup/persistence and
+    :class:`Generator` for the full generation loop.
 rengines
-    Pluggable RNG backends (:class:`~keygen.rengines.RandomRengine`,
-    :class:`~keygen.rengines.SobolRengine`).
+    Pluggable RNG backends (:class:`RandomRengine`,
+    :class:`SobolRengine`).
 """
 
 from .blueprint import Blueprint
 from .key import Key
 from .store import Store
+
+# fields
+from .fields import Enum, Field, Param, Pool
+
+# recorders
+from .recorders import Generator, Recorder, SpaceExhaustedError
+
+# rengines
+from .rengines import (
+    FastForwardNotSupported,
+    RandomRengine,
+    Rengine,
+    SobolRengine,
+)
 
 from . import fields
 from . import recorders
@@ -44,8 +56,25 @@ __all__ = [
     "recorders",
     "rengines",
 
-    # classes
+    # core
     "Blueprint",
     "Key",
     "Store",
+
+    # fields
+    "Enum",
+    "Field",
+    "Param",
+    "Pool",
+
+    # recorders
+    "Generator",
+    "Recorder",
+    "SpaceExhaustedError",
+
+    # rengines
+    "FastForwardNotSupported",
+    "RandomRengine",
+    "Rengine",
+    "SobolRengine",
 ]

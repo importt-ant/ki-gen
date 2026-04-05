@@ -124,8 +124,8 @@ class Blueprint:
         """
         values: dict[str, Any] = {}
         for fname, spec in self._key_type.field_specs().items():
-            override = self._overrides.get(fname)
-            if override is not None:
+            if fname in self._overrides:
+                override = self._overrides[fname]
                 if isinstance(override, Field):
                     values[fname] = self._randomize_field(fname, override, rng)
                 else:

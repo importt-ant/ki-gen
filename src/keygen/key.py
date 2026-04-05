@@ -65,6 +65,14 @@ class Key:
         """
         self._values: dict[str, Any] = {}
         self.id: str = uuid.uuid4().hex[:12]
+
+        missing = set(self._fields) - set(values)
+        if missing:
+            raise TypeError(
+                f"{type(self).__name__} missing required field(s): "
+                + ", ".join(sorted(missing))
+            )
+
         for name, value in values.items():
             if name not in self._fields:
                 raise TypeError(

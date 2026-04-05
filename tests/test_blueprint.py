@@ -174,6 +174,28 @@ class TestBlueprintBuild:
         rng = RandomRengine(seed=42)
         with pytest.raises(TypeError, match="needs both min and max"):
             bp.build(rng)
+    def test_build_with_falsy_static_override(self, synth_patch_cls):
+        """Falsy values (0, False, '') are respected as static overrides."""
+        bp = Blueprint(synth_patch_cls).configure("velocity", 0)
+        rng = RandomRengine(seed=42)
+        for _ in range(20):
+            key = bp.build(rng)
+            assert key.velocity == 0
+
+    def test_build_with_none_static_override(self, synth_patch_cls):
+        """None can be pinned as a static override."""
+        # We need a Key that accepts None for a field — use a Param with no bounds
+        from keygen.key import Key as _Key
+        from keygen.fields import Param as _P
+
+        class NullableKey(_Key):
+            x = _P()  # no bounds, no validation beyond step
+            y = _P(min=0, max=10)
+
+        bp = Blueprint(NullableKey).configure("x", None)
+        rng = RandomRengine(seed=42)
+        key = bp.build(rng)
+        assert key.x is None
 
 
 # ═══════════════════════════════════════════════════════════════════════

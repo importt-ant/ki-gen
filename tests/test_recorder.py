@@ -162,3 +162,30 @@ class TestSpaceExhausted:
         r = Recorder(name="x")
         with pytest.raises(SpaceExhaustedError, match="x:recorder"):
             r._on_space_exhausted(10)
+
+
+# ═══════════════════════════════════════════════════════════════════════
+#  Context manager auto-flush
+# ═══════════════════════════════════════════════════════════════════════
+
+
+class TestRecorderContextManager:
+    def test_context_manager_flushes(self, tmp_store):
+        with Recorder(name="ctx", store=tmp_store, flush_interval=100) as r:
+            k = SynthPatch(pitch=440, velocity=100, attack=0.5, waveform="sine")
+            r.record(k)
+            # Not yet flushed (interval=100)
+            assert tmp_store.run_count(r.gen_key) == 0
+        # After exiting context, flush has occurred
+        assert tmp_store.run_count("ctx:recorder") == 1
+
+    def test_context_manager_returns_self(self, tmp_store):
+        recorder = Recorder(name="ctx", store=tmp_store)
+        with recorder as r:
+            assert r is recorder
+
+    def test_context_manager_without_store(self):
+        with Recorder(name="mem") as r:
+            k = SynthPatch(pitch=440, velocity=100, attack=0.5, waveform="sine")
+            r.record(k)
+        # Should not raise even without a store

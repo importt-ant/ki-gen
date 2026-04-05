@@ -148,6 +148,16 @@ class Recorder:
             f"exploration space likely exhausted"
         )
 
+    # ── context manager ──────────────────────────────────────────────
+
+    def __enter__(self) -> Recorder:
+        """Enter the context manager, returning the recorder."""
+        return self
+
+    def __exit__(self, *exc: object) -> None:
+        """Flush pending keys on context exit."""
+        self.flush()
+
     # ── recording ────────────────────────────────────────────────────
 
     def record(self, key: Key) -> bool:
