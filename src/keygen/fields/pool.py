@@ -47,7 +47,7 @@ class Pool(Field):
         self._options: tuple[Any, ...] | None = None
         self._attr = ""
 
-    # ── population ───────────────────────────────────────────────────
+    # ── Population ───────────────────────────────────────────────────
 
     def populate(self, items: Iterable[Any]) -> None:
         """Set the option list. Can only be called once.
@@ -106,7 +106,7 @@ class Pool(Field):
             )
         return self._options
 
-    # ── validation ───────────────────────────────────────────────────
+    # ── Validation ───────────────────────────────────────────────────
 
     def validate(self, value: Any) -> None:
         """Raise :exc:`RuntimeError` if unpopulated, or :exc:`ValueError` if *value* is not in the pool.
@@ -133,7 +133,7 @@ class Pool(Field):
                 f"({len(self._options)} items)"
             )
 
-    # ── sequence protocol ────────────────────────────────────────────
+    # ── Sequence Protocol ────────────────────────────────────────────
 
     def __len__(self) -> int:
         """Number of options in the pool.

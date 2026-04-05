@@ -55,7 +55,7 @@ class Key:
         Parameters
         ----------
         **values:
-            Field names mapped to their values.  Every name must
+            Field names mapped to their values. Every name must
             correspond to a declared :class:`Field` on the class.
 
         Raises
@@ -78,7 +78,7 @@ class Key:
                 raise TypeError(
                     f"{type(self).__name__} has no field {name!r}"
                 )
-            setattr(self, name, value)  # triggers validate via __set__
+            setattr(self, name, value)  # Triggers validation via __set__
 
     @classmethod
     def field_specs(cls) -> dict[str, Field]:

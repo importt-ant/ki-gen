@@ -29,21 +29,21 @@ class SobolRengine:
     """
 
     def __init__(self, seed: int | None = None, dimensions: int = 32) -> None:
-        from scipy.stats.qmc import Sobol  # lazy — optional dep
+        from scipy.stats.qmc import Sobol  # lazy — optional dependency
 
         self._seed = seed
         self._dimensions = dimensions
         self._engine = Sobol(d=dimensions, seed=seed)
         self._point: list[float] = []
         self._dim_idx: int = 0
-        self._advance()  # prime the first point
+        self._advance()  # Prime the first point
 
     @property
     def seed(self) -> int | None:
         """The seed this engine was initialized with, or ``None``."""
         return self._seed
 
-    # ── point management ────────────────────────────────────────────
+    # ── Point management ────────────────────────────────────────────
 
     def _advance(self) -> None:
         """Move to the next Sobol point and reset the dimension cursor."""
