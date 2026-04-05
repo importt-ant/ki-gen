@@ -5,8 +5,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from keygen.blueprint import Blueprint
-from keygen.recorders.recorder import Recorder
 from keygen.key import Key
+from keygen.recorders.recorder import Recorder
 from keygen.rengines import FastForwardNotSupported, RandomRengine, Rengine
 
 if TYPE_CHECKING:
