@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -70,7 +70,7 @@ class Store:
         state_extra: dict | None = None,
     ) -> None:
         """Insert or update a generator row."""
-        now = datetime.now(timezone.utc).isoformat()
+        now = datetime.now(UTC).isoformat()
         extra_json = json.dumps(state_extra or {})
 
         self._conn.execute(
@@ -89,9 +89,7 @@ class Store:
 
     def list_generators(self) -> list[dict]:
         """Return all registered generators."""
-        rows = self._conn.execute(
-            "SELECT * FROM generators ORDER BY gen_key"
-        ).fetchall()
+        rows = self._conn.execute("SELECT * FROM generators ORDER BY gen_key").fetchall()
         result = []
         for r in rows:
             d = dict(r)
@@ -103,25 +101,21 @@ class Store:
 
     def record_run(self, key: Key, gen_key: str) -> None:
         """Record a single generated key."""
-        now = datetime.now(timezone.utc).isoformat()
+        now = datetime.now(UTC).isoformat()
         self._conn.execute(
-            "INSERT OR IGNORE INTO runs (key_id, gen_key, params, created_at) "
-            "VALUES (?, ?, ?, ?)",
+            "INSERT OR IGNORE INTO runs (key_id, gen_key, params, created_at) VALUES (?, ?, ?, ?)",
             (key.id, gen_key, json.dumps(key.to_dict(), default=str), now),
         )
         self._conn.commit()
 
     def record_runs(self, keys: list[Key], gen_key: str) -> None:
         """Record multiple keys in a single transaction."""
-        now = datetime.now(timezone.utc).isoformat()
+        now = datetime.now(UTC).isoformat()
         rows = []
         for key in keys:
-            rows.append(
-                (key.id, gen_key, json.dumps(key.to_dict(), default=str), now)
-            )
+            rows.append((key.id, gen_key, json.dumps(key.to_dict(), default=str), now))
         self._conn.executemany(
-            "INSERT OR IGNORE INTO runs (key_id, gen_key, params, created_at) "
-            "VALUES (?, ?, ?, ?)",
+            "INSERT OR IGNORE INTO runs (key_id, gen_key, params, created_at) VALUES (?, ?, ?, ?)",
             rows,
         )
         self._conn.commit()
@@ -138,9 +132,7 @@ class Store:
 
     def get_run(self, key_id: str) -> dict | None:
         """Look up a single run by key ID."""
-        row = self._conn.execute(
-            "SELECT * FROM runs WHERE key_id = ?", (key_id,)
-        ).fetchone()
+        row = self._conn.execute("SELECT * FROM runs WHERE key_id = ?", (key_id,)).fetchone()
         if row is None:
             return None
         return self._run_to_dict(row)
@@ -166,9 +158,7 @@ class Store:
                 (gen_key,),
             ).fetchall()
         else:
-            rows = self._conn.execute(
-                "SELECT key_id, gen_key, params FROM runs"
-            ).fetchall()
+            rows = self._conn.execute("SELECT key_id, gen_key, params FROM runs").fetchall()
         return [
             {
                 "key_id": r["key_id"],
@@ -186,10 +176,7 @@ class Store:
         rows = self._conn.execute(
             "SELECT params FROM runs WHERE gen_key = ?", (gen_key,)
         ).fetchall()
-        return {
-            json.dumps(json.loads(r["params"]), sort_keys=True)
-            for r in rows
-        }
+        return {json.dumps(json.loads(r["params"]), sort_keys=True) for r in rows}
 
     # ── housekeeping ──────────────────────────────────────────────────
 

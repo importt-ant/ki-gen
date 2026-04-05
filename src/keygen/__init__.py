@@ -28,12 +28,12 @@ rengines
     :class:`SobolRengine`).
 """
 
+from . import fields, recorders, rengines
 from .blueprint import Blueprint
-from .key import Key
-from .store import Store
 
 # fields
 from .fields import Enum, Field, Param, Pool
+from .key import Key
 
 # recorders
 from .recorders import Generator, Recorder, SpaceExhaustedError
@@ -45,33 +45,26 @@ from .rengines import (
     Rengine,
     SobolRengine,
 )
-
-from . import fields
-from . import recorders
-from . import rengines
+from .store import Store
 
 __all__ = [
     # modules
     "fields",
     "recorders",
     "rengines",
-
     # core
     "Blueprint",
     "Key",
     "Store",
-
     # fields
     "Enum",
     "Field",
     "Param",
     "Pool",
-
     # recorders
     "Generator",
     "Recorder",
     "SpaceExhaustedError",
-
     # rengines
     "FastForwardNotSupported",
     "RandomRengine",

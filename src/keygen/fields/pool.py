@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Any, Iterable, Iterator
+from collections.abc import Iterable, Iterator
+from typing import Any
 
 from keygen.fields.field import Field
 
@@ -42,9 +43,7 @@ class Pool(Field):
             )
         opts = tuple(items)
         if not opts:
-            raise ValueError(
-                f"{self._attr}: cannot populate with an empty collection"
-            )
+            raise ValueError(f"{self._attr}: cannot populate with an empty collection")
         self._options = opts
 
     @property
@@ -71,8 +70,7 @@ class Pool(Field):
             )
         if value not in self._options:
             raise ValueError(
-                f"{self._attr}: {value!r} is not in the pool "
-                f"({len(self._options)} items)"
+                f"{self._attr}: {value!r} is not in the pool ({len(self._options)} items)"
             )
 
     # ── sequence protocol ────────────────────────────────────────────

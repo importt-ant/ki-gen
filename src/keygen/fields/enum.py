@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Any, Iterator
+from collections.abc import Iterator
+from typing import Any
 
 from keygen.fields.field import Field
 
@@ -37,9 +38,7 @@ class Enum(Field):
     def validate(self, value: Any) -> None:
         """Raise :exc:`ValueError` if *value* is not one of the allowed options."""
         if value not in self.options:
-            raise ValueError(
-                f"{self._attr}: {value!r} is not one of {self.options}"
-            )
+            raise ValueError(f"{self._attr}: {value!r} is not one of {self.options}")
 
     def __len__(self) -> int:
         """Number of allowed options."""
