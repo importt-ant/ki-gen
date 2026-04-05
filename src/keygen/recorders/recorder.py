@@ -31,14 +31,14 @@ class Recorder:
 
     Parameters
     ----------
-    name:
-        Human-readable label used to build :attr:`gen_key`.  Required
+    name : str, optional
+        Human-readable label used to build :attr:`gen_key`. Required
         when instantiating ``Recorder`` directly; subclasses may
         override the :attr:`name` property instead.
-    store:
+    store : Store, optional
         :class:`Store` for persistence and dedup state.
         ``None`` gives an in-memory-only recorder.
-    flush_interval:
+    flush_interval : int, optional
         Number of :meth:`record` calls between automatic flushes.
     """
 
@@ -104,7 +104,7 @@ class Recorder:
     def _on_resume(self, state: dict) -> None:
         """Hook called when resuming from a stored session.
 
-        *state* is the full generator row dict.  Override to replay
+        *state* is the full generator row dict. Override to replay
         or fast-forward RNG state, etc.
         """
 
@@ -121,6 +121,7 @@ class Recorder:
         self._dirty = 0
 
     def _flush_state(self) -> None:
+        """Save the current state of the generator to the store."""
         if self._store is None:
             return
         self._store.save_generator_by_key(
@@ -129,18 +130,20 @@ class Recorder:
         )
 
     def _maybe_flush(self) -> None:
+        """Flush pending keys if the dirty count exceeds the flush interval."""
         if self._dirty >= self._flush_interval:
             self.flush()
 
     # ── deduplication (private) ───────────────────────────────────
 
     def _is_duplicate(self, fingerprint: str) -> bool:
+        """Check if the given fingerprint is a duplicate."""
         return fingerprint in self._seen
 
     def _on_space_exhausted(self, consecutive_skips: int) -> None:
         """Called when dedup hits too many skips in a row.
 
-        Default raises :class:`SpaceExhaustedError`.  Override to
+        Default raises :class:`SpaceExhaustedError`. Override to
         retire the generator gracefully instead.
         """
         raise SpaceExhaustedError(
@@ -165,7 +168,7 @@ class Recorder:
 
         Parameters
         ----------
-        key:
+        key : Key
             The :class:`Key` instance to record.
 
         Returns

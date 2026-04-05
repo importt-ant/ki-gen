@@ -21,19 +21,19 @@ class Rengine(Protocol):
     """
 
     def randint(self, a: int, b: int) -> int:
-        """Random integer in [a, b] inclusive."""
+        """Return a random integer in [a, b] inclusive."""
         ...
 
     def uniform(self, a: float, b: float) -> float:
-        """Random float in [a, b)."""
+        """Return a random float in [a, b)."""
         ...
 
     def choice(self, seq: list[Any] | tuple[Any, ...]) -> Any:
-        """Pick one element from *seq*."""
+        """Return one element from *seq*."""
         ...
 
     def sample(self, population: list[Any], k: int) -> list[Any]:
-        """Choose *k* unique elements from *population*."""
+        """Return *k* unique elements from *population*."""
         ...
 
     def fast_forward(self, steps: int) -> None:
