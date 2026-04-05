@@ -1,6 +1,6 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
 _commit: 1.8-6-ge72bd44
-_src_path: /home/maximiliantodea/Github/github-infra
+_src_path: gh:importt-ant/github-infra
 description: Zero-dependency generic seeded generator framework with dedup and SQLite
     persistence.
 development_status: 5 - Production/Stable
