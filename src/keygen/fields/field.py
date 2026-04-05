@@ -9,7 +9,7 @@ from typing import Any
 class Field:
     """Base descriptor for :class:`~keygen.Key` fields.
 
-    Subclass this to create custom field types.  Implement
+    Subclass this to create custom field types. Implement
     :meth:`validate` to raise :exc:`ValueError` on bad input.
     Validation runs automatically on every assignment to a Key
     instance.
@@ -20,6 +20,14 @@ class Field:
             def validate(self, value):
                 if not isinstance(value, int) or not (0 <= value <= 127):
                     raise ValueError(f"{self._attr}: expected MIDI note 0–127, got {value!r}")
+    
+    Parameters
+    ----------
+    None
+
+    Raises
+    ------
+    None
     """
 
     _attr: str = ""
