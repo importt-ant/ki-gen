@@ -9,7 +9,7 @@ from typing import Any
 class Field:
     """Base descriptor for :class:`~keygen.Key` fields.
 
-    Subclass this to create custom field types.  Implement
+    Subclass this to create custom field types. Implement
     :meth:`validate` to raise :exc:`ValueError` on bad input.
     Validation runs automatically on every assignment to a Key
     instance.
@@ -20,13 +20,32 @@ class Field:
             def validate(self, value):
                 if not isinstance(value, int) or not (0 <= value <= 127):
                     raise ValueError(f"{self._attr}: expected MIDI note 0–127, got {value!r}")
+    
+    Parameters
+    ----------
+    None
+
+    Raises
+    ------
+    None
     """
 
     _attr: str = ""
 
     @abstractmethod
     def validate(self, value: Any) -> None:
-        """Raise :exc:`ValueError` if *value* is not acceptable."""
+        """Raise :exc:`ValueError` if *value* is not acceptable.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate.
+
+        Raises
+        ------
+        ValueError
+            When *value* is not acceptable.
+        """
 
     # ── descriptor protocol ──────────────────────────────────────────
 
@@ -35,12 +54,38 @@ class Field:
         self._attr = name
 
     def __get__(self, obj: Any, objtype: type | None = None) -> Any:
-        """Return the field spec (class access) or the stored value (instance access)."""
+        """Return the field spec (class access) or the stored value (instance access).
+
+        Parameters
+        ----------
+        obj : Any
+            The instance from which to retrieve the value.
+        objtype : type, optional
+            The type of the owner class.
+
+        Returns
+        -------
+        Any
+            The stored value or the field spec.
+        """
         if obj is None:
             return self  # class access → field spec
         return obj._values.get(self._attr)
 
     def __set__(self, obj: Any, value: Any) -> None:
-        """Validate and store *value* on the Key instance."""
+        """Validate and store *value* on the Key instance.
+
+        Parameters
+        ----------
+        obj : Any
+            The instance on which to store the value.
+        value : Any
+            The value to store.
+
+        Raises
+        ------
+        ValueError
+            When *value* is not acceptable.
+        """
         self.validate(value)
         obj._values[self._attr] = value
