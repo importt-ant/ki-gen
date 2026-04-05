@@ -110,7 +110,7 @@ class RandomRengine:
             When attempting to fast forward.
         """
         raise FastForwardNotSupported(
-            "RandomRengine does not support O(1) fast-forward"
+            "RandomRengine does not support O(1) fast forward"
         )
 
     def __repr__(self) -> str:

@@ -1,11 +1,16 @@
-"""Pluggable rng engines for key generation.
+from __future__ import annotations
 
-Public api
-----------
-Rengine
-    Base class for random engine implementations.
-RandomRengine
-    Random number generator using a standard random engine.
-SobolRengine
-    Random number generator using sobol sequences.
-"""
+
+class Rengine:
+    """Base class for random engine implementations."""
+    pass
+
+
+class RandomRengine(Rengine):
+    """Random number generator using a standard random engine."""
+    pass
+
+
+class SobolRengine(Rengine):
+    """Random number generator using sobol sequences."""
+    pass

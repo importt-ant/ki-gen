@@ -17,7 +17,7 @@ class Field:
     Example::
 
         class MidiNote(Field):
-            def validate(self, value):
+            def validate(self, value: Any) -> None:
                 if not isinstance(value, int) or not (0 <= value <= 127):
                     raise ValueError(f"{self._attr}: expected MIDI note 0–127, got {value!r}")
     

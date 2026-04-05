@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from keygen.key import Key
 
@@ -101,7 +101,7 @@ class Recorder:
 
         self._seen = store.load_seen_fingerprints(self.gen_key)
 
-    def _on_resume(self, state: dict) -> None:
+    def _on_resume(self, state: dict[str, Any]) -> None:
         """Hook called when resuming from a stored session.
 
         *state* is the full generator row dict; override to replay

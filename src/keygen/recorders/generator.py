@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from keygen.blueprint import Blueprint
 from keygen.recorders.recorder import Recorder
@@ -99,7 +99,7 @@ class Generator(Recorder):
 
     # ── resume ───────────────────────────────────────────────────────
 
-    def _on_resume(self, state: dict) -> None:
+    def _on_resume(self, state: dict[str, Any]) -> None:
         """Resume the generator state from a saved state.
 
         Parameters

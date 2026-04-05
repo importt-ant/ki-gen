@@ -6,7 +6,7 @@ import json
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from keygen.key import Key
@@ -51,8 +51,8 @@ class Store:
 
     # ── generator state ───────────────────────────────────────────────
 
-    def load_generator_by_key(self, gen_key: str) -> dict | None:
-        """Return the stored row for a generator, or ``None``."""
+    def load_generator_by_key(self, gen_key: str) -> dict[str, Any] | None:
+        """Return the stored row for a generator, or None."""
         row = self._conn.execute(
             "SELECT * FROM generators WHERE gen_key = ?", (gen_key,)
         ).fetchone()
@@ -67,7 +67,7 @@ class Store:
         gen_key: str,
         *,
         cursor: int = 0,
-        state_extra: dict | None = None,
+        state_extra: dict[str, Any] | None = None,
     ) -> None:
         """Insert or update a generator row.
 
@@ -97,7 +97,7 @@ class Store:
         )
         self._conn.commit()
 
-    def list_generators(self) -> list[dict]:
+    def list_generators(self) -> list[dict[str, Any]]:
         """Return all registered generators."""
         rows = self._conn.execute(
             "SELECT * FROM generators ORDER BY gen_key"
@@ -173,7 +173,7 @@ class Store:
             row = self._conn.execute("SELECT COUNT(*) FROM runs").fetchone()
         return row[0]
 
-    def get_run(self, key_id: str) -> dict | None:
+    def get_run(self, key_id: str) -> dict[str, Any] | None:
         """Look up a single run by key ID.
 
         Parameters
@@ -184,7 +184,7 @@ class Store:
         Returns
         -------
         dict or None
-            The run data as a dictionary, or ``None`` if not found.
+            The run data as a dictionary, or None if not found.
         """
         row = self._conn.execute(
             "SELECT * FROM runs WHERE key_id = ?", (key_id,)
@@ -193,7 +193,7 @@ class Store:
             return None
         return self._run_to_dict(row)
 
-    def recent_runs(self, n: int = 20, gen_key: str | None = None) -> list[dict]:
+    def recent_runs(self, n: int = 20, gen_key: str | None = None) -> list[dict[str, Any]]:
         """Return the *n* most recent runs.
 
         Parameters
@@ -219,7 +219,7 @@ class Store:
             ).fetchall()
         return [self._run_to_dict(r) for r in rows]
 
-    def all_params(self, gen_key: str | None = None) -> list[dict]:
+    def all_params(self, gen_key: str | None = None) -> list[dict[str, Any]]:
         """Return all stored param dicts, for similarity comparisons.
 
         Parameters
@@ -251,7 +251,7 @@ class Store:
         ]
 
     def load_seen_fingerprints(self, gen_key: str) -> set[str]:
-        """Return the set of canonical param-fingerprints for *gen_key*.
+        """Return the set of canonical param-fingerprints for gen_key.
 
         This is used by generators to initialize their dedup seen-set on resume.
 
@@ -288,8 +288,8 @@ class Store:
         self.close()
 
     @staticmethod
-    def _run_to_dict(row: sqlite3.Row) -> dict:
-        """Convert a ``runs`` row to a plain dict, deserializing params.
+    def _run_to_dict(row: sqlite3.Row) -> dict[str, Any]:
+        """Convert a runs row to a plain dict, deserializing params.
 
         Parameters
         ----------

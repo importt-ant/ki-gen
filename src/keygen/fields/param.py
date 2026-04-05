@@ -23,11 +23,11 @@ class Param(Field):
 
     Parameters
     ----------
-    min : float | int, optional
+    min : float | int | None, optional
         Lower bound (inclusive).  ``None`` means unbounded below.
-    max : float | int, optional
+    max : float | int | None, optional
         Upper bound (inclusive).  ``None`` means unbounded above.
-    step : float | int, optional
+    step : float | int | None, optional
         If set, values must land on ``min + n * step``.
     """
 

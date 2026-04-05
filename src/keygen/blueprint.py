@@ -123,15 +123,15 @@ class Blueprint:
             The constructed key with all fields populated.
         """
         values: dict[str, Any] = {}
-        for fname, spec in self._key_type.field_specs().items():
-            if fname in self._overrides:
-                override = self._overrides[fname]
+        for field_name, spec in self._key_type.field_specs().items():
+            if field_name in self._overrides:
+                override = self._overrides[field_name]
                 if isinstance(override, Field):
-                    values[fname] = self._randomize_field(fname, override, rng)
+                    values[field_name] = self._randomize_field(field_name, override, rng)
                 else:
-                    values[fname] = override
+                    values[field_name] = override
             else:
-                values[fname] = self._randomize_field(fname, spec, rng)
+                values[field_name] = self._randomize_field(field_name, spec, rng)
         return self._key_type(**values)
 
     @staticmethod

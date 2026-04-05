@@ -37,7 +37,7 @@ class Pool(Field):
     def __init__(self) -> None:
         """initialize a Pool instance."""
         self._options: tuple[Any, ...] | None = None
-        self._attr = ""
+        self._attr: str = ""
 
     # ── population ───────────────────────────────────────────────────
 
@@ -68,7 +68,7 @@ class Pool(Field):
         self._options = opts
 
     @property
-    def populated(self) -> bool:
+    def is_populated(self) -> bool:
         """whether :meth:`populate` has been called.
 
         returns
