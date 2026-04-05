@@ -82,27 +82,71 @@ class Key:
 
     @classmethod
     def field_specs(cls) -> dict[str, Field]:
-        """Return all declared field specifications."""
+        """Return all declared field specifications.
+
+        Returns
+        -------
+        dict[str, Field]
+            A dictionary mapping field names to their specifications.
+        """
         return dict(cls._fields)
 
     def to_dict(self) -> dict[str, Any]:
-        """Field values as a plain dict."""
+        """Return field values as a plain dict.
+
+        Returns
+        -------
+        dict[str, Any]
+            A dictionary containing the field values.
+        """
         return dict(self._values)
 
     def fingerprint(self) -> str:
-        """Canonical string for deduplication."""
+        """Return a canonical string for deduplication.
+
+        Returns
+        -------
+        str
+            A JSON string representation of the field values.
+        """
         return json.dumps(self._values, sort_keys=True, default=str)
 
     def __repr__(self) -> str:
+        """Return a string representation of the Key instance.
+
+        Returns
+        -------
+        str
+            A string that represents the Key instance.
+        """
         vals = ", ".join(f"{k}={v!r}" for k, v in self._values.items())
         return f"{type(self).__name__}(id={self.id!r}, {vals})"
 
     def __eq__(self, other: object) -> bool:
-        """Two keys are equal when they share a type and identical field values."""
+        """Determine equality of two Key instances.
+
+        Two keys are equal when they share a type and identical field values.
+
+        Parameters
+        ----------
+        other : object
+            The object to compare against.
+
+        Returns
+        -------
+        bool
+            True if the keys are equal, False otherwise.
+        """
         if not isinstance(other, Key):
             return NotImplemented
         return type(self) is type(other) and self._values == other._values
 
     def __hash__(self) -> int:
-        """Hash based on the type and canonical field fingerprint."""
+        """Return a hash based on the type and canonical field fingerprint.
+
+        Returns
+        -------
+        int
+            The hash value of the Key instance.
+        """
         return hash((type(self).__qualname__, self.fingerprint()))

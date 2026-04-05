@@ -21,9 +21,9 @@ class SobolRengine:
 
     Parameters
     ----------
-    seed:
+    seed : int | None, optional
         Seed forwarded to the underlying Sobol engine.
-    dimensions:
+    dimensions : int
         Number of Sobol dimensions per point (should be >= the number
         of draws per ``_randomize`` call).
     """
@@ -64,20 +64,70 @@ class SobolRengine:
         return u
 
     def randint(self, a: int, b: int) -> int:
-        """Random integer in [a, b] inclusive."""
+        """Return a random integer in [a, b] inclusive.
+
+        Parameters
+        ----------
+        a : int
+            Lower bound of the random integer.
+        b : int
+            Upper bound of the random integer.
+
+        Returns
+        -------
+        int
+            A random integer in the range [a, b].
+        """
         return a + int(self._next_uniform() * (b - a + 1)) % (b - a + 1)
 
     def uniform(self, a: float, b: float) -> float:
-        """Random float in [a, b)."""
+        """Return a random float in [a, b).
+
+        Parameters
+        ----------
+        a : float
+            Lower bound of the random float.
+        b : float
+            Upper bound of the random float.
+
+        Returns
+        -------
+        float
+            A random float in the range [a, b).
+        """
         return a + self._next_uniform() * (b - a)
 
     def choice(self, seq: list[Any] | tuple[Any, ...]) -> Any:
-        """Pick one element uniformly from *seq*."""
+        """Pick one element uniformly from *seq*.
+
+        Parameters
+        ----------
+        seq : list[Any] | tuple[Any, ...]
+            The sequence from which to pick an element.
+
+        Returns
+        -------
+        Any
+            A randomly selected element from the sequence.
+        """
         idx = int(self._next_uniform() * len(seq)) % len(seq)
         return seq[idx]
 
     def sample(self, population: list[Any], k: int) -> list[Any]:
-        """Choose *k* unique elements (Fisher-Yates via Sobol draws)."""
+        """Choose *k* unique elements (Fisher-Yates via Sobol draws).
+
+        Parameters
+        ----------
+        population : list[Any]
+            The population from which to sample.
+        k : int
+            The number of unique elements to choose.
+
+        Returns
+        -------
+        list[Any]
+            A list of *k* unique elements sampled from the population.
+        """
         pool = list(population)
         n = len(pool)
         result: list[Any] = []

@@ -10,7 +10,7 @@ from keygen.fields.field import Field
 class Param(Field):
     """Numeric field with optional min, max, and step constraints.
 
-    ::
+    Example::
 
         class Oscillator(Key):
             frequency = Param(min=20, max=20000)
@@ -23,11 +23,11 @@ class Param(Field):
 
     Parameters
     ----------
-    min:
+    min : float | int, optional
         Lower bound (inclusive).  ``None`` means unbounded below.
-    max:
+    max : float | int, optional
         Upper bound (inclusive).  ``None`` means unbounded above.
-    step:
+    step : float | int, optional
         If set, values must land on ``min + n * step``.
     """
 

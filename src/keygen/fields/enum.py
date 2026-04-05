@@ -10,7 +10,7 @@ from keygen.fields.field import Field
 class Enum(Field):
     """Categorical field with a fixed set of allowed values.
 
-    ::
+    Example::
 
         class DrumKit(Key):
             hit = Enum("kick", "snare", "hihat", "clap")
@@ -24,8 +24,13 @@ class Enum(Field):
 
     Parameters
     ----------
-    *options:
-        One or more allowed values.  At least one is required.
+    *options : Any
+        One or more allowed values. At least one is required.
+    
+    Raises
+    ------
+    TypeError
+        When no options are provided.
     """
 
     def __init__(self, *options: Any) -> None:

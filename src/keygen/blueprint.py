@@ -26,7 +26,7 @@ class Blueprint:
 
     Parameters
     ----------
-    key_type:
+    key_type : type[Key]
         The :class:`Key` subclass whose fields will be randomized.
     """
 
@@ -41,16 +41,16 @@ class Blueprint:
 
         Parameters
         ----------
-        field_name:
+        field_name : str
             Name of a field declared on the Key subclass.
-        spec:
+        spec : Field | Any
             A :class:`Field` descriptor (e.g. ``Param(min=1000, max=2000)``)
             to override randomization bounds, or a plain value to pin
             the field to a static constant.
 
         Returns
         -------
-        self
+        Blueprint
             For method chaining.
 
         Raises
@@ -85,7 +85,7 @@ class Blueprint:
 
         Parameters
         ----------
-        field_name:
+        field_name : str
             Name of a field declared on the Key subclass.
 
         Raises
@@ -109,7 +109,7 @@ class Blueprint:
 
         Parameters
         ----------
-        rng:
+        rng : Any
             Any object satisfying the :class:`Rengine` protocol
             (``randint``, ``uniform``, ``choice``, etc.).
 

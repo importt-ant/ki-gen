@@ -2,7 +2,7 @@
 
 Define a :class:`Key` subclass to describe your parameter space, wrap it
 in a :class:`Blueprint` to control randomization, and hand it to a
-:class:`Generator` to produce unique configurations::
+:meth:`Generator` to produce unique configurations::
 
     from keygen import Key, Blueprint, Store, Param, Enum, Generator
 

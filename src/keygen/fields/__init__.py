@@ -1,14 +1,13 @@
-"""Field descriptors for declaring validated Key attributes."""
+"""Field descriptors for declaring validated Key attributes.
 
-from .field import Field
-from .param import Param
-from .enum import Enum
-from .pool import Pool
-
-__all__ = [
-    # classes
-    "Field",
-    "Param",
-    "Enum",
-    "Pool",
-]
+Public API
+----------
+Field
+    Field descriptor for validated attributes.
+Param
+    Parameter descriptor for validated attributes.
+Enum
+    Enumeration descriptor for validated attributes.
+Pool
+    Pooling mechanism for managing resources.
+"""
