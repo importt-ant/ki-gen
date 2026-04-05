@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: 1.8-9-gf098dfc
+_commit: 1.8-10-gd9c8496
 _src_path: gh:importt-ant/github-infra
 description: Zero-dependency generic seeded generator framework with dedup and SQLite
     persistence.
