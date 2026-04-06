@@ -10,7 +10,7 @@ from keygen.fields.field import Field
 class Param(Field):
     """Numeric field with optional min, max, and step constraints.
 
-    ::
+    Example::
 
         class Oscillator(Key):
             frequency = Param(min=20, max=20000)
@@ -23,11 +23,11 @@ class Param(Field):
 
     Parameters
     ----------
-    min:
+    min : float | int, optional
         Lower bound (inclusive).  ``None`` means unbounded below.
-    max:
+    max : float | int, optional
         Upper bound (inclusive).  ``None`` means unbounded above.
-    step:
+    step : float | int, optional
         If set, values must land on ``min + n * step``.
     """
 
@@ -46,16 +46,12 @@ class Param(Field):
     def validate(self, value: Any) -> None:
         """Raise :exc:`ValueError` if *value* violates the min/max/step constraints."""
         if self.min is not None and value < self.min:
-            raise ValueError(
-                f"{self._attr}: {value!r} is below minimum {self.min}"
-            )
+            raise ValueError(f"{self._attr}: {value!r} is below minimum {self.min}")
         if self.max is not None and value > self.max:
-            raise ValueError(
-                f"{self._attr}: {value!r} is above maximum {self.max}"
-            )
+            raise ValueError(f"{self._attr}: {value!r} is above maximum {self.max}")
         if self.step is not None and self.min is not None:
             offset = value - self.min
-            # Use round() to tolerate floating-point drift
+            # Use round() to handle floating-point precision issues
             if round(offset / self.step) * self.step != round(offset, 12):
                 raise ValueError(
                     f"{self._attr}: {value!r} is not aligned to "
