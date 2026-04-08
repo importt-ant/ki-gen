@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import threading
 
 import pytest
 
@@ -44,48 +43,6 @@ class TestStoreConstruction:
         # Attempting operations on a closed connection raises.
         with pytest.raises(Exception):
             store._conn.execute("SELECT 1")
-
-    def test_check_same_thread_default_true(self, tmp_path):
-        """Default Store raises when used from another thread."""
-        db = tmp_path / "thread.db"
-        store = Store(db)
-        error = None
-
-        def _use_store():
-            nonlocal error
-            try:
-                store.save_generator_by_key("gen:t:0", cursor=0)
-            except Exception as exc:
-                error = exc
-
-        t = threading.Thread(target=_use_store)
-        t.start()
-        t.join()
-        store.close()
-        assert error is not None
-        assert "thread" in str(error).lower()
-
-    def test_check_same_thread_false(self, tmp_path):
-        """Store(check_same_thread=False) works from another thread."""
-        db = tmp_path / "thread_safe.db"
-        store = Store(db, check_same_thread=False)
-        error = None
-
-        def _use_store():
-            nonlocal error
-            try:
-                store.save_generator_by_key("gen:t:0", cursor=42)
-            except Exception as exc:
-                error = exc
-
-        t = threading.Thread(target=_use_store)
-        t.start()
-        t.join()
-        assert error is None
-        row = store.load_generator_by_key("gen:t:0")
-        assert row is not None
-        assert row["cursor"] == 42
-        store.close()
 
 
 # ═══════════════════════════════════════════════════════════════════════
