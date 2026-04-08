@@ -40,12 +40,22 @@ class Store:
     ----------
     db_path : str or Path
         Path to the SQLite database file. Created automatically.
+    check_same_thread : bool
+        Passed to ``sqlite3.connect()``.  Set to ``False`` when the
+        Store is created in one thread but used in another (e.g. a
+        background worker).  Default is ``True``.
     """
 
-    def __init__(self, db_path: str | Path = _DEFAULT_DB) -> None:
+    def __init__(
+        self,
+        db_path: str | Path = _DEFAULT_DB,
+        check_same_thread: bool = True,
+    ) -> None:
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
-        self._conn = sqlite3.connect(str(self.db_path))
+        self._conn = sqlite3.connect(
+            str(self.db_path), check_same_thread=check_same_thread,
+        )
         self._conn.row_factory = sqlite3.Row
         self._conn.executescript(_SCHEMA)
 
