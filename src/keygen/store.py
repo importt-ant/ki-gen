@@ -54,7 +54,8 @@ class Store:
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._conn = sqlite3.connect(
-            str(self.db_path), check_same_thread=check_same_thread,
+            str(self.db_path),
+            check_same_thread=check_same_thread,
         )
         self._conn.row_factory = sqlite3.Row
         self._conn.executescript(_SCHEMA)
