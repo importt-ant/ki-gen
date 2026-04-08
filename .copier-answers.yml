@@ -1,12 +1,16 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: 1.8-13-g86b0a7d
+_commit: 1.8-14-g774bea3
 _src_path: gh:importt-ant/github-infra
+dependencies: []
 description: Zero-dependency generic seeded generator framework with dedup and SQLite
     persistence.
 development_status: 5 - Production/Stable
+keywords: []
+license: MIT
 min_python: '3.12'
 optional_extras:
     sobol:
     - scipy>=1.12
 package_name: keygen
 project_name: atomic-keygen
+topic_classifiers: []
