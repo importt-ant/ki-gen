@@ -12,7 +12,6 @@ requires-python = ">=3.12"
 authors = [
     {name = "Maximilian Todea", email = "demon.and.max@gmail.com"},
 ]
-<<<<<<< before updating
 keywords = [    
     "generator",
     "parameter-generation",
@@ -23,10 +22,6 @@ keywords = [
     "key-generation",
     "randomization",
     ]
-=======
-keywords = [
-]
->>>>>>> after updating
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
