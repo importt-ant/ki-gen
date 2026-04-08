@@ -11,6 +11,7 @@ Unified SQLite store for generator state and key history.
 | Name | Description |
 |---|---|
 | `db_path` | Path to the SQLite database file. Created automatically. |
+| `check_same_thread` | Passed to `sqlite3.connect()`.  Set to `False` when the Store is created in one thread but used in another (e.g. a background worker).  Default is `True`. |
 
 ---
 
