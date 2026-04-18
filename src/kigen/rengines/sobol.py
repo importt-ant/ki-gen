@@ -8,7 +8,7 @@ from typing import Any
 class SobolRengine:
     """RNG engine backed by a Sobol quasi-random sequence.
 
-    Implements the :class:`~kgen.rengines.Rengine` protocol.
+    Implements the :class:`~kigen.rengines.Rengine` protocol.
     Each ``randint``, ``uniform``, ``choice``, and ``sample`` call
     consumes the next Sobol dimension, wrapping around when
     dimensions are exhausted.

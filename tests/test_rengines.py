@@ -1,10 +1,10 @@
-"""Tests for kgen.rengines — RandomRengine, SobolRengine, protocol conformance."""
+"""Tests for kigen.rengines — RandomRengine, SobolRengine, protocol conformance."""
 
 from __future__ import annotations
 
 import pytest
 
-from kgen.rengines import FastForwardNotSupported, RandomRengine, Rengine
+from kigen.rengines import FastForwardNotSupported, RandomRengine, Rengine
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -118,7 +118,7 @@ class TestRandomRengine:
 # Guard: skip the entire class if scipy is not installed.
 scipy = pytest.importorskip("scipy")
 
-from kgen.rengines import SobolRengine  # noqa: E402
+from kigen.rengines import SobolRengine  # noqa: E402
 
 
 class TestSobolRengine:

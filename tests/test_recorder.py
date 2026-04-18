@@ -1,10 +1,10 @@
-"""Tests for kgen.recorders.recorder — dedup, flushing, persistence."""
+"""Tests for kigen.recorders.recorder — dedup, flushing, persistence."""
 
 from __future__ import annotations
 
 import pytest
 
-from kgen.recorders.recorder import Recorder, SpaceExhaustedError
+from kigen.recorders.recorder import Recorder, SpaceExhaustedError
 
 from .conftest import SynthPatch
 

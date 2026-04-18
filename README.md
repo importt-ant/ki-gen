@@ -1,14 +1,14 @@
-# 🧬❗: k-gen
+# 🧬❗: ki-gen
 
 Generic seeded generator framework with dedup and SQLite persistence.
 
 ## Install
 
 ```bash
-pip install k-gen
+pip install ki-gen
 
 # With Sobol quasi-random engine (optional)
-pip install k-gen[sobol]
+pip install ki-gen[sobol]
 ```
 
 Requires Python 3.12+.
@@ -16,7 +16,7 @@ Requires Python 3.12+.
 ## Quick start
 
 ```python
-from kgen import Blueprint, Enum, Generator, Key, Param
+from kigen import Blueprint, Enum, Generator, Key, Param
 
 # 1. Define a Key with typed fields
 class SoundKey(Key):
@@ -73,7 +73,7 @@ bp = Blueprint(ToneKey).configure("pitch", Param(min=200, max=800))
 `Recorder` handles **dedup** and **persistence**. It can be used directly as a recorder:
 
 ```python
-from kgen import Recorder, Store
+from kigen import Recorder, Store
 
 with Store("my.db") as store:
     recorder = Recorder(name="api-ingest", store=store)
@@ -89,7 +89,7 @@ with Store("my.db") as store:
 `Generator` combines a `Blueprint` with a pluggable **Rengine** (RNG engine) and adds the generate/dedup loop:
 
 ```python
-from kgen import Generator, Store
+from kigen import Generator, Store
 
 with Store("my.db") as store:
     gen = Generator(bp, seed=42, store=store)
@@ -107,7 +107,7 @@ The RNG engine protocol. Two built-in implementations:
 | `SobolRengine` | Quasi-random Sobol sequence (requires `scipy`). O(1) fast-forward on resume. |
 
 ```python
-from kgen import SobolRengine
+from kigen import SobolRengine
 
 gen = Generator(bp, seed=42, rengine=SobolRengine(seed=42, dimensions=8))
 ```
@@ -132,7 +132,7 @@ with Store("my.db") as store:
 ## Project structure
 
 ```
-src/kgen/
+src/kigen/
 ├── __init__.py
 ├── blueprint.py          # Blueprint — field randomization plan
 ├── key.py                # Key — structured parameter container

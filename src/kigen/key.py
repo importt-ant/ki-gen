@@ -6,7 +6,7 @@ import json
 import uuid
 from typing import Any
 
-from kgen.fields import Field
+from kigen.fields import Field
 
 
 class Key:

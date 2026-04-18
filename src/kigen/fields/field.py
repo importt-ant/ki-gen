@@ -7,7 +7,7 @@ from typing import Any
 
 
 class Field:
-    """Base descriptor for :class:`~kgen.Key` fields.
+    """Base descriptor for :class:`~kigen.Key` fields.
 
     Subclass this to create custom field types. Implement
     :meth:`validate` to raise :exc:`ValueError` on bad input.

@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterator
 from typing import Any
 
-from kgen.fields.field import Field
+from kigen.fields.field import Field
 
 
 class Enum(Field):

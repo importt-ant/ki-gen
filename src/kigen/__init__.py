@@ -1,10 +1,10 @@
-"""kgen -- seeded parameter generation with deduplication and persistence.
+"""kigen -- seeded parameter generation with deduplication and persistence.
 
 Define a :class:`Key` subclass to describe your parameter space, wrap it
 in a :class:`Blueprint` to control randomization, and hand it to a
 :class:`Generator` to produce unique configurations::
 
-    from kgen import Key, Blueprint, Store, Param, Enum, Generator
+    from kigen import Key, Blueprint, Store, Param, Enum, Generator
 
     class SynthPatch(Key):
         pitch    = Param(min=20, max=20000)

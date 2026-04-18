@@ -3,7 +3,7 @@ requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "k-gen"
+name = "ki-gen"
 version = "1.0.0"
 description = "Zero-dependency generic seeded generator framework with dedup and SQLite persistence."
 readme = "README.md"
@@ -40,20 +40,20 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/importt-ant/k-gen"
-Repository = "https://github.com/importt-ant/k-gen"
-Issues = "https://github.com/importt-ant/k-gen/issues"
+Homepage = "https://github.com/importt-ant/ki-gen"
+Repository = "https://github.com/importt-ant/ki-gen"
+Issues = "https://github.com/importt-ant/ki-gen/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["kgen*"]
+include = ["kigen*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
 [tool.semantic_release]
 version_toml = ["pyproject.toml:project.version"]
-version_variables = ["src/kgen/__init__.py:__version__"]
+version_variables = ["src/kigen/__init__.py:__version__"]
 build_command = "pip install build && python -m build"
 commit_message = "chore(release): v{version} [skip ci]"
 

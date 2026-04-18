@@ -1,4 +1,4 @@
-"""Tests for kgen.key — Key subclass behaviour, validation, fingerprinting."""
+"""Tests for kigen.key — Key subclass behaviour, validation, fingerprinting."""
 
 from __future__ import annotations
 
@@ -6,8 +6,8 @@ import json
 
 import pytest
 
-from kgen.key import Key
-from kgen.fields import Enum, Param
+from kigen.key import Key
+from kigen.fields import Enum, Param
 
 from .conftest import SynthPatch, MinimalKey
 

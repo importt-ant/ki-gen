@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from kgen.key import Key
+from kigen.key import Key
 
 if TYPE_CHECKING:
-    from kgen.store import Store
+    from kigen.store import Store
 
 _DEFAULT_FLUSH_INTERVAL = 10
 

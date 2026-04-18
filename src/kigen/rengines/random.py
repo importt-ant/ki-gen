@@ -5,7 +5,7 @@ from __future__ import annotations
 import random
 from typing import Any
 
-from kgen.rengines.protocol import FastForwardNotSupported
+from kigen.rengines.protocol import FastForwardNotSupported
 
 
 class RandomRengine:

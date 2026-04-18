@@ -9,9 +9,9 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from kgen.key import Key
+    from kigen.key import Key
 
-_DEFAULT_DB = "kgen.db"
+_DEFAULT_DB = "kigen.db"
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS generators (

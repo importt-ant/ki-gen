@@ -1,13 +1,13 @@
-"""Tests for kgen.blueprint — configuration, effective specs, and building."""
+"""Tests for kigen.blueprint — configuration, effective specs, and building."""
 
 from __future__ import annotations
 
 import pytest
 
-from kgen.blueprint import Blueprint
-from kgen.fields import Enum, Param, Pool
-from kgen.key import Key
-from kgen.rengines import RandomRengine
+from kigen.blueprint import Blueprint
+from kigen.fields import Enum, Param, Pool
+from kigen.key import Key
+from kigen.rengines import RandomRengine
 
 from .conftest import SynthPatch, SteppedKey, PoolKey
 
@@ -185,8 +185,8 @@ class TestBlueprintBuild:
     def test_build_with_none_static_override(self, synth_patch_cls):
         """None can be pinned as a static override."""
         # We need a Key that accepts None for a field — use a Param with no bounds
-        from kgen.key import Key as _Key
-        from kgen.fields import Param as _P
+        from kigen.key import Key as _Key
+        from kigen.fields import Param as _P
 
         class NullableKey(_Key):
             x = _P()  # no bounds, no validation beyond step
@@ -205,7 +205,7 @@ class TestBlueprintBuild:
 
 class TestRandomizeFieldDispatch:
     def test_unknown_field_type_raises(self):
-        from kgen.fields.field import Field
+        from kigen.fields.field import Field
 
         class CustomField(Field):
             def validate(self, value):

@@ -1,11 +1,11 @@
-"""Shared fixtures for kgen test suite."""
+"""Shared fixtures for kigen test suite."""
 
 from __future__ import annotations
 
 import pytest
 
-from kgen import Blueprint, Key, Store
-from kgen.fields import Enum, Param, Pool
+from kigen import Blueprint, Key, Store
+from kigen.fields import Enum, Param, Pool
 
 
 # ── Key subclasses used across tests ─────────────────────────────────
