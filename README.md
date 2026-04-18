@@ -1,4 +1,4 @@
-# 🧬❗: ki-gen
+# ki 🧬❗: ki-gen
 
 Generic seeded generator framework with dedup and SQLite persistence.
 
