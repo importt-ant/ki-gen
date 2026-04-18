@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ki-gen"
-version = "1.0.0"
+version = "0.1.0"
 description = "Zero-dependency generic seeded generator framework with dedup and SQLite persistence."
 readme = "README.md"
 license = {text = "MIT"}
