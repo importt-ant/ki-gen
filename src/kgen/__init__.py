@@ -1,10 +1,10 @@
-"""keygen -- seeded parameter generation with deduplication and persistence.
+"""kgen -- seeded parameter generation with deduplication and persistence.
 
 Define a :class:`Key` subclass to describe your parameter space, wrap it
 in a :class:`Blueprint` to control randomization, and hand it to a
 :class:`Generator` to produce unique configurations::
 
-    from keygen import Key, Blueprint, Store, Param, Enum, Generator
+    from kgen import Key, Blueprint, Store, Param, Enum, Generator
 
     class SynthPatch(Key):
         pitch    = Param(min=20, max=20000)
@@ -71,3 +71,5 @@ __all__ = [
     "Rengine",
     "SobolRengine",
 ]
+
+__version__ = "1.0.0"

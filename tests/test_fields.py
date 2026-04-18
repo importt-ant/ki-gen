@@ -1,11 +1,11 @@
-"""Tests for keygen.fields — Param, Enum, Pool, and the Field descriptor protocol."""
+"""Tests for kgen.fields — Param, Enum, Pool, and the Field descriptor protocol."""
 
 from __future__ import annotations
 
 import pytest
 
-from keygen.fields import Enum, Field, Param, Pool
-from keygen.key import Key
+from kgen.fields import Enum, Field, Param, Pool
+from kgen.key import Key
 
 
 # ═══════════════════════════════════════════════════════════════════════

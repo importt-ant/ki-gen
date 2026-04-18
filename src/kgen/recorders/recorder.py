@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from keygen.key import Key
+from kgen.key import Key
 
 if TYPE_CHECKING:
-    from keygen.store import Store
+    from kgen.store import Store
 
 _DEFAULT_FLUSH_INTERVAL = 10
 

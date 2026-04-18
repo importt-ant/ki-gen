@@ -4,13 +4,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from keygen.blueprint import Blueprint
-from keygen.key import Key
-from keygen.recorders.recorder import Recorder
-from keygen.rengines import FastForwardNotSupported, RandomRengine, Rengine
+from kgen.blueprint import Blueprint
+from kgen.key import Key
+from kgen.recorders.recorder import Recorder
+from kgen.rengines import FastForwardNotSupported, RandomRengine, Rengine
 
 if TYPE_CHECKING:
-    from keygen.store import Store
+    from kgen.store import Store
 
 _DEFAULT_MAX_CONSECUTIVE_SKIPS = 30
 

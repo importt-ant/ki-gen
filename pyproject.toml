@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=68.0", "setuptools-scm>=8.0"]
+requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "atomic-keygen"
-dynamic = ["version"]
+name = "k-gen"
+version = "1.0.0"
 description = "Zero-dependency generic seeded generator framework with dedup and SQLite persistence."
 readme = "README.md"
 license = {text = "MIT"}
@@ -37,27 +37,25 @@ sobol = ["scipy>=1.12"]
 dev = [
     "pytest>=7.4",
     "pytest-cov>=4.1",
-    "ruff>=0.4",
 ]
 
 [project.urls]
-Homepage = "https://github.com/importt-ant/atomic-keygen"
-Repository = "https://github.com/importt-ant/atomic-keygen"
-Issues = "https://github.com/importt-ant/atomic-keygen/issues"
-
-[tool.setuptools_scm]
-# version is read from git tags (e.g. v1.0 → 1.0)
+Homepage = "https://github.com/importt-ant/k-gen"
+Repository = "https://github.com/importt-ant/k-gen"
+Issues = "https://github.com/importt-ant/k-gen/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["keygen*"]
+include = ["kgen*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
-[tool.ruff]
-target-version = "py312"
-line-length = 100
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+version_variables = ["src/kgen/__init__.py:__version__"]
+build_command = "pip install build && python -m build"
+commit_message = "chore(release): v{version} [skip ci]"
 
-[tool.ruff.lint]
-select = ["E", "F", "I", "N", "W", "UP"]
+[tool.semantic_release.changelog]
+generate = false

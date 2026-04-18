@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from keygen.fields import Enum, Field, Param, Pool
-from keygen.key import Key
+from kgen.fields import Enum, Field, Param, Pool
+from kgen.key import Key
 
 
 class Blueprint:

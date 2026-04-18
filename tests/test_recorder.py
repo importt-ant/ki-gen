@@ -1,10 +1,10 @@
-"""Tests for keygen.recorders.recorder — dedup, flushing, persistence."""
+"""Tests for kgen.recorders.recorder — dedup, flushing, persistence."""
 
 from __future__ import annotations
 
 import pytest
 
-from keygen.recorders.recorder import Recorder, SpaceExhaustedError
+from kgen.recorders.recorder import Recorder, SpaceExhaustedError
 
 from .conftest import SynthPatch
 

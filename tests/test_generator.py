@@ -1,14 +1,14 @@
-"""Tests for keygen.recorders.generator — generation loop, resume, dedup integration."""
+"""Tests for kgen.recorders.generator — generation loop, resume, dedup integration."""
 
 from __future__ import annotations
 
 import pytest
 
-from keygen.blueprint import Blueprint
-from keygen.fields import Enum, Param
-from keygen.key import Key
-from keygen.recorders import Generator, SpaceExhaustedError
-from keygen.rengines import RandomRengine
+from kgen.blueprint import Blueprint
+from kgen.fields import Enum, Param
+from kgen.key import Key
+from kgen.recorders import Generator, SpaceExhaustedError
+from kgen.rengines import RandomRengine
 
 from .conftest import MinimalKey, SynthPatch
 

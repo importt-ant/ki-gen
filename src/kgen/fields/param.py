@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from keygen.fields.field import Field
+from kgen.fields.field import Field
 
 
 class Param(Field):

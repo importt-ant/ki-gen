@@ -1,4 +1,4 @@
-"""Tests for keygen.store — SQLite persistence, generator state, run history."""
+"""Tests for kgen.store — SQLite persistence, generator state, run history."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ import threading
 
 import pytest
 
-from keygen.store import Store
+from kgen.store import Store
 
 from .conftest import SynthPatch
 
@@ -33,7 +33,7 @@ class TestStoreConstruction:
     def test_default_path(self, tmp_path, monkeypatch):
         monkeypatch.chdir(tmp_path)
         store = Store()
-        assert (tmp_path / "keygen.db").exists()
+        assert (tmp_path / "kgen.db").exists()
         store.close()
 
     def test_context_manager(self, tmp_path):
