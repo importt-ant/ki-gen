@@ -1,7 +1,7 @@
 # CHANGELOG
 
 
-## v0.1.0 (2026-04-18)
+## v1.0.0 (2026-04-18)
 
 ### Chores
 
@@ -10,6 +10,9 @@
 
 - **llm**: Standardize-docstrings pass [skip ci]
   ([`199294d`](https://github.com/importt-ant/ki-gen/commit/199294db35f7ef53d1bce95f8e2f3fa6f2831dda))
+
+- **release**: V0.1.0 [skip ci]
+  ([`311f5df`](https://github.com/importt-ant/ki-gen/commit/311f5dfbcebaf4ed492281b05b633c8ad9509d78))
 
 - **ruff**: Fix + format [skip ci]
   ([`e507d29`](https://github.com/importt-ant/ki-gen/commit/e507d2976616243b7abf166134a9157a35c5bc67))
@@ -49,6 +52,9 @@
   ([`56c79a8`](https://github.com/importt-ant/ki-gen/commit/56c79a866dcb3db7baab42469ff82176364bdefb))
 
 ### Features
+
+- Redundant commit for release
+  ([`193bf6c`](https://github.com/importt-ant/ki-gen/commit/193bf6c43a649abbf1b1ebb8cdc8e8a392917a81))
 
 - Redundant commit to trigger release
   ([`fed40f1`](https://github.com/importt-ant/ki-gen/commit/fed40f1cb29a834fb9bde670d4e4e6e8317ade0d))
