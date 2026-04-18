@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from kigen import Blueprint, Key, Store
+from dbstorr import Store
+from kigen import Blueprint, Key
 from kigen.fields import Enum, Param, Pool
 
 

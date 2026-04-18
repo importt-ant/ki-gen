@@ -1,10 +1,11 @@
-"""kigen -- seeded parameter generation with deduplication and persistence.
+"""kigen -- seeded parameter generation with deduplication.
 
 Define a :class:`Key` subclass to describe your parameter space, wrap it
 in a :class:`Blueprint` to control randomization, and hand it to a
 :class:`Generator` to produce unique configurations::
 
-    from kigen import Key, Blueprint, Store, Param, Enum, Generator
+    from dbstorr import Store
+    from kigen import Key, Blueprint, Param, Enum, Generator
 
     class SynthPatch(Key):
         pitch    = Param(min=20, max=20000)
@@ -45,7 +46,6 @@ from .rengines import (
     Rengine,
     SobolRengine,
 )
-from dbstorr import Store
 
 __all__ = [
     # modules
@@ -55,7 +55,6 @@ __all__ = [
     # core
     "Blueprint",
     "Key",
-    "Store",
     # fields
     "Enum",
     "Field",
@@ -72,4 +71,4 @@ __all__ = [
     "SobolRengine",
 ]
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"

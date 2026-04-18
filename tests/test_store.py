@@ -7,7 +7,7 @@ import threading
 
 import pytest
 
-from kigen.store import Store
+from dbstorr import Store
 
 from .conftest import SynthPatch
 

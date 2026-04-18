@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ki-gen"
-version = "0.1.0"
-description = "Zero-dependency generic seeded generator framework with dedup and SQLite persistence."
+version = "1.0.0"
+description = "Zero-dependency generic seeded generator framework with dedup."
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.12"
@@ -53,7 +53,7 @@ testpaths = ["tests"]
 
 [tool.semantic_release]
 version_toml = ["pyproject.toml:project.version"]
-version_variables = ["src/kigen/__init__.py:__version__"]
+version_variables = ["src/kigen/__init__.py:__version__", "src/dbstorr/__init__.py:__version__"]
 build_command = "pip install build && python -m build"
 commit_message = "chore(release): v{version} [skip ci]"
 
