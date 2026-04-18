@@ -46,7 +46,7 @@ Issues = "https://github.com/importt-ant/ki-gen/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["kigen*"]
+include = ["dbstorr*", "kigen*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

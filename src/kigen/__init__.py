@@ -45,7 +45,7 @@ from .rengines import (
     Rengine,
     SobolRengine,
 )
-from .store import Store
+from dbstorr import Store
 
 __all__ = [
     # modules

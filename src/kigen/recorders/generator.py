@@ -10,7 +10,7 @@ from kigen.recorders.recorder import Recorder
 from kigen.rengines import FastForwardNotSupported, RandomRengine, Rengine
 
 if TYPE_CHECKING:
-    from kigen.store import Store
+    from dbstorr import Store
 
 _DEFAULT_MAX_CONSECUTIVE_SKIPS = 30
 

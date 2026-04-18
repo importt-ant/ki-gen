@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from kigen.key import Key
 
 if TYPE_CHECKING:
-    from kigen.store import Store
+    from dbstorr import Store
 
 _DEFAULT_FLUSH_INTERVAL = 10
 
