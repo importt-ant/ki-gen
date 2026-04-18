@@ -49,3 +49,4 @@ Thumbs.db
 
 # ── Project-specific ──────────────────────────────────────────────────────────
 # (add per-project entries below this line)
+uv.lock
